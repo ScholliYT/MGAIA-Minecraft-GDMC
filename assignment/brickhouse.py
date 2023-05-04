@@ -31,7 +31,7 @@ from assignment.utils.structures import (
     brickhouse_roofhouse_middle_to_flat_mirrored_x,
     empty_space_air,
 )
-from assignment.utils.wave_function_collaplse_util import collapse_to_air_on_outer_rectangle
+from assignment.utils.wave_function_collaplse_util import collapse_to_air_on_outer_rectangle, collapse_unbuildable_to_air, print_state
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
 
@@ -134,6 +134,19 @@ def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
     def reinit():
         collapse_to_air_on_outer_rectangle(wfc)
 
+        # print_state(wfc)
+
+        buildable = [
+            [True, True, True, True, True],
+            [True, True, True, True, True],
+            [False, False, False, True, True],
+            [False, False, False, True, True],
+            [False, False, False, True, True],
+        ]
+        collapse_unbuildable_to_air(wfc, buildable)
+
+        # print_state(wfc)
+
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
         wfc.collapse_random_cell()
@@ -161,7 +174,7 @@ def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
         
         # wfc.collapse_cell_to_state([6,0,6], StructureRotation(brickhouse_entrance, 2))
     
-    def building_criterion_met(wfc):
+    def building_criterion_met(wfc: WaveFunctionCollapse):
         air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
         contains_door = any([StructureRotation(brickhouse_entrance, r) in set(wfc.used_structures()) for r in range(4)])
         return (not air_only) and contains_door
@@ -190,7 +203,7 @@ def build_brickhouse(editor: Editor, building: List[List[List[Tuple[Structure, i
     assert len(building[0]) in (1,2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor
-    gf_strucutre_size = ivec3(11,7,11)
+    gf_strucutre_size = ivec3(7,7,7)
 
     def build_layer(layer: int):
         for row_idx, building_row in tqdm(list(enumerate(reversed(building)))):
@@ -216,18 +229,17 @@ def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(-110, -1, 780))
+        ED.transform @= Transform(translation=ivec3(115, -1, 460))
 
         print("Building house...")
         # building = deterministic_building()
 
-        wfc = random_building(size=(11,2,11))
+        wfc = random_building(size=(7,2,7))
         building = wfc_state_to_minecraft_blocks(wfc.collapsed_state())
         build_brickhouse(editor=ED, building=building, place_air=False)
 
 
 
-        
         print("Done!")
 
     except KeyboardInterrupt: # useful for aborting a run-away program

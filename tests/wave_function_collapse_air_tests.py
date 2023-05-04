@@ -12,6 +12,7 @@ from assignment.utils.structures import (
 )
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
+    collapse_unbuildable_to_air,
     print_state,
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
@@ -173,6 +174,27 @@ class WaveFunctionCollaplse5x1x5_Surrounded_Air_Test(unittest.TestCase):
         self.assertLessEqual(retries, 50)
 
         self._assert_centered_3x3_building()
+
+        print("WFC collapsed after", retries, "retries")
+        print_state(self.wfc)
+
+    def test_collapses_2x2_with_boolean_array(self):
+        self.wfc.collapse_cell_to_state([1,0,1], StructureRotation(brickhouse_entrance, 0))
+
+        buildable = [
+            [True, True, False],
+            [True, True, False],
+            [False, False, False],
+        ]
+        collapse_unbuildable_to_air(self.wfc, buildable)
+
+        retries = self.wfc.collapse_with_retry()
+        self.assertLessEqual(retries, 50)
+
+        for r in range(4):
+            air = StructureRotation(empty_space_air, r)
+            for x,y in itertools.product(range(1,3), range(1,3)):
+                self.assertNotIn(air, self.wfc.state_space[x][0][y])
 
         print("WFC collapsed after", retries, "retries")
         print_state(self.wfc)
