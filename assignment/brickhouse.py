@@ -1,4 +1,3 @@
-import logging
 import time
 from typing import List, Tuple
 
@@ -26,28 +25,31 @@ from assignment.utils.structures import (
     brickhouse_roofhouse_courtyard,
     brickhouse_roofhouse_inner_corner_m2m,
     brickhouse_roofhouse_middle,
-    brickhouse_small_window_flat_roof,
     brickhouse_roofhouse_middle_to_flat,
-    brickhouse_roofhouse_middle_to_flat_mirrored_x,
+    brickhouse_small_window_flat_roof,
     empty_space_air,
 )
-from assignment.utils.wave_function_collaplse_util import collapse_to_air_on_outer_rectangle, collapse_unbuildable_to_air, print_state
+from assignment.utils.wave_function_collaplse_util import (
+    collapse_to_air_on_outer_rectangle,
+    collapse_unbuildable_to_air,
+    print_state,
+)
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
 
 def deterministic_building() -> List[List[List[Tuple[Structure, int]]]]:
-    entrance_structure = load_structure(brickhouse_entrance)
+    load_structure(brickhouse_entrance)
     middle_structure = load_structure(brickhouse_middle)
-    balcony_structure = load_structure(brickhouse_balcony)
-    corner_structure = load_structure(brickhouse_corner)
-    center_structure = load_structure(brickhouse_center)
-    courtyard_structure = load_structure(brickhouse_courtyard)
-    small_window_flat_roof_structure = load_structure(brickhouse_small_window_flat_roof)
-    big_window_flat_roof_structure = load_structure(brickhouse_big_window_flat_roof)
-    roofhouse_corner_structure = load_structure(brickhouse_roofhouse_corner)
+    load_structure(brickhouse_balcony)
+    load_structure(brickhouse_corner)
+    load_structure(brickhouse_center)
+    load_structure(brickhouse_courtyard)
+    load_structure(brickhouse_small_window_flat_roof)
+    load_structure(brickhouse_big_window_flat_roof)
+    load_structure(brickhouse_roofhouse_corner)
     roofhouse_middle_structure = load_structure(brickhouse_roofhouse_middle)
-    roofhouse_courtyard_structure = load_structure(brickhouse_roofhouse_courtyard)
-    roofhouse_center_structure = load_structure(brickhouse_roofhouse_center)
+    load_structure(brickhouse_roofhouse_courtyard)
+    load_structure(brickhouse_roofhouse_center)
     inner_corner_m2m_structure = load_structure(brickhouse_inner_corner_m2m)
     roofhouse_inner_corner_m2m_structure = load_structure(brickhouse_roofhouse_inner_corner_m2m)
     empty_space_air_structure = load_structure(empty_space_air)
@@ -118,14 +120,14 @@ def deterministic_building() -> List[List[List[Tuple[Structure, int]]]]:
 def structure_weights(structures: List[StructureRotation]):
     for s in structures:
         if s.structure_name == empty_space_air:
-            yield 0.1
+            yield 0.001
         elif s.structure_name in (brickhouse_roofhouse_courtyard, brickhouse_center, brickhouse_inner_corner_m2m):
             yield 300.0
         elif s.structure_name in (brickhouse_roofhouse_middle_to_flat):
             yield 5.0
-        else: 
+        else:
             yield 1.0
-    
+
 
 def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
 
@@ -134,7 +136,8 @@ def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
     def reinit():
         collapse_to_air_on_outer_rectangle(wfc)
 
-        # print_state(wfc)
+        print("Outer rectangle")
+        print_state(wfc)
 
         buildable = [
             [True, True, True, True, True],
@@ -145,7 +148,8 @@ def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
         ]
         collapse_unbuildable_to_air(wfc, buildable)
 
-        # print_state(wfc)
+        print("Unbuildable")
+        print_state(wfc)
 
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
@@ -171,13 +175,14 @@ def random_building(size: Tuple[int,int,int] = (5,2,5)) -> WaveFunctionCollapse:
         # wfc.collapse_cell_to_state([11,0,4], StructureRotation(brickhouse_courtyard, 0))
 
         # wfc.collapse_cell_to_state([1,1,3], StructureRotation(brickhouse_roofhouse_middle_to_flat, 0))
-        
+
         # wfc.collapse_cell_to_state([6,0,6], StructureRotation(brickhouse_entrance, 2))
-    
+
     def building_criterion_met(wfc: WaveFunctionCollapse):
         air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
         contains_door = any([StructureRotation(brickhouse_entrance, r) in set(wfc.used_structures()) for r in range(4)])
-        return (not air_only) and contains_door
+        # return (not air_only) and contains_door
+        return True
 
     retries = wfc.collapse_with_retry(reinit=reinit)
     while not building_criterion_met(wfc): # used air structures only
@@ -190,10 +195,10 @@ def wfc_state_to_minecraft_blocks(building: List[List[List[StructureRotation]]])
     # transform StructuredRotation to (Structure,rotation) tuple
     buidling = [[[
         (load_structure(z.structure_name), z.rotation)
-        for z in ys] 
-        for ys in xs] 
+        for z in ys]
+        for ys in xs]
         for xs in reversed(building)]
-    
+
     return buidling
 
 
@@ -203,7 +208,7 @@ def build_brickhouse(editor: Editor, building: List[List[List[Tuple[Structure, i
     assert len(building[0]) in (1,2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor
-    gf_strucutre_size = ivec3(7,7,7)
+    gf_strucutre_size = ivec3(11,7,11)
 
     def build_layer(layer: int):
         for row_idx, building_row in tqdm(list(enumerate(reversed(building)))):
@@ -216,7 +221,7 @@ def build_brickhouse(editor: Editor, building: List[List[List[Tuple[Structure, i
                         build_structure(editor, structure, rotation)
                     editor.flushBuffer()
                     time.sleep(0.1)
-    
+
     build_layer(0)
     print("Ground floor finished")
 
@@ -229,7 +234,7 @@ def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(115, -1, 460))
+        ED.transform @= Transform(translation=ivec3(120, -1, 900))
 
         print("Building house...")
         # building = deterministic_building()

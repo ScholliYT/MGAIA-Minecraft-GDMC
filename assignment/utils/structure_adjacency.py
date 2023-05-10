@@ -83,9 +83,8 @@ class StructureAdjacency:
                 case "z_minus":
                     return list(map(lambda r: r.rotate(self_rotation), rotation_axes[-self_rotation + 3])) # self.x_minus for rotation 1
             raise NotImplementedError(f"Axis {axis} should have been handled before")
-        else: 
+        else:
             raise ValueError("Rotation must be 0,1,2 or 3")
-
 
 
 
