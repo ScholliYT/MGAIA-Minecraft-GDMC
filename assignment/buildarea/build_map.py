@@ -1,7 +1,8 @@
-import numpy as np
-from scipy.ndimage import gaussian_filter
-from gdpc import Block, Editor, Transform
 import helper as helper
+import numpy as np
+from gdpc import Block
+from scipy.ndimage import gaussian_filter
+
 
 class MapHolder():
 

@@ -1,5 +1,6 @@
-from glm import ivec2, ivec3
-from gdpc import Block, Editor, Transform
+from gdpc import Block
+from glm import ivec3
+
 
 def remove_trees(ED, xstart, ystart, zstart, sizex, sizey, sizez):
     removed_tree_blocks = []

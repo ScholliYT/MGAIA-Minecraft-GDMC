@@ -1,15 +1,11 @@
-import helper as helper
-import build_functions as build_funcs
-from build_map import MapHolder
-import numpy as np
-
-
 import logging
 
+import build_functions as build_funcs
+import helper as helper
+import numpy as np
+from build_map import MapHolder
+from gdpc import Editor, Transform
 from termcolor import colored
-
-from gdpc import Block, Editor, Transform
-
 
 logging.basicConfig(format=colored("%(name)s - %(levelname)s - %(message)s", color="yellow"))
 
@@ -33,7 +29,7 @@ ACCEPTABLE_BUILDING_SCORE = 1.3
 Sigma = 3
 
 
-def build_on_spot(Mymap,x_array,ystart,z_array, house_grid, size_struct):
+def build_on_spot(mymap: MapHolder,x_array,ystart,z_array, house_grid, size_struct):
     xstart = x_array - int(size_struct / 2)
     zstart = z_array - int(size_struct / 2)
 
@@ -41,7 +37,7 @@ def build_on_spot(Mymap,x_array,ystart,z_array, house_grid, size_struct):
         for z in range(len(house_grid[0])):
             if house_grid[x][z] == 1:
                 # claim building spot, so no other building will be built there
-                Mymap.claim_zone(xstart+x*size_struct, zstart+z*size_struct, size_struct, size_struct, "todo door","todo edges")
+                mymap.claim_zone(xstart+x*size_struct, zstart+z*size_struct, size_struct, size_struct, "todo door","todo edges")
                 build_funcs.remove_trees(ED, xstart, ystart, zstart, size_struct, size_struct, size_struct)
                 # and remove trees first
                 with ED.pushTransform(Transform((xstart+x*size_struct, ystart, zstart+z*size_struct))):
@@ -49,14 +45,14 @@ def build_on_spot(Mymap,x_array,ystart,z_array, house_grid, size_struct):
 
 # func that seeks location and orders to build a building over there,
 # Make sure to built bigger buildings first(decrease size of buildings over time!!
-def build_boxes(Mymap, it):
+def build_boxes(mymap: MapHolder, it):
     # size of building chunk
     size_struct = 7
 
     # find the best location to put a building
-    best_loc_x, best_loc_z = helper.find_min_idx(Mymap.block_slope_score, size_struct)
+    best_loc_x, best_loc_z = helper.find_min_idx(mymap.block_slope_score, size_struct)
     # get the value of the minimum spot
-    min_score = min([min(r) for r in Mymap.block_slope_score])
+    min_score = min([min(r) for r in mymap.block_slope_score])
 
     # see if this place is still suitable for a building
     if (min_score) > ACCEPTABLE_BUILDING_SCORE and it >= 1:
@@ -68,16 +64,16 @@ def build_boxes(Mymap, it):
         best_loc_y -= 1
 
     # find all adjacent building spots
-    x_array, z_array, house_grid = Mymap.find_spot(best_loc_x, best_loc_y, best_loc_z, size_struct)
+    x_array, z_array, house_grid = mymap.find_spot(best_loc_x, best_loc_y, best_loc_z, size_struct)
     # build building
-    build_on_spot(Mymap,STARTX + x_array,best_loc_y,STARTZ + z_array, house_grid, size_struct)
+    build_on_spot(mymap,STARTX + x_array,best_loc_y,STARTZ + z_array, house_grid, size_struct)
 
 if __name__ == '__main__':
-    Mymap = MapHolder(ED,heights, ACCEPTABLE_BUILDING_SCORE)
+    mymap = MapHolder(ED,heights, ACCEPTABLE_BUILDING_SCORE)
     print("calculating heights and making Build Map...")
-    Mymap.find_flat_areas_and_trees(print_colors=True)
+    mymap.find_flat_areas_and_trees(print_colors=True)
 
     print("Building Houses...")
     for it in range(20):
-        build_boxes(Mymap, it)
+        build_boxes(mymap, it)
         ED.flushBuffer()
