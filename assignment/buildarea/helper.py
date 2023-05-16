@@ -15,6 +15,7 @@ def is_tree(ED, x, y, z):
         return True
     return False
 
+
 def is_air(ED, x, y, z):
     type = ED.getBlock((x, y - 1, z))
     if "air" in type.id:
@@ -22,9 +23,9 @@ def is_air(ED, x, y, z):
     return False
 
 
-def find_min_idx(x,size_struct):
+def find_min_idx(x, size_struct):
     # add borders so we don't build outside of heightmap
-    n = int(size_struct/2+1)
+    n = int(size_struct / 2 + 1)
     x[:n, :] = 10_000
     x[-n:, :] = 10_000
     x[:, :n] = 10_000

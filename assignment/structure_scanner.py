@@ -30,7 +30,7 @@ try:
 except InterfaceConnectionError:
     print(
         f"Error: Could not connect to the GDMC HTTP interface at {editor.host}!\n"
-        "To use GDPC, you need to use a \"backend\" that provides the GDMC HTTP interface.\n"
+        'To use GDPC, you need to use a "backend" that provides the GDMC HTTP interface.\n'
         "For example, by running Minecraft with the GDMC HTTP mod installed.\n"
         f"See {__url__}/README.md for more information."
     )
@@ -49,7 +49,6 @@ except BuildAreaNotSetError:
     sys.exit(1)
 
 
-
 print("Loading world slice...")
 buildRect = buildArea.toRect()
 worldSlice = editor.loadWorldSlice(buildRect, cache=True)
@@ -60,7 +59,9 @@ print("Sturcutre bottom left corner", buildArea.offset)
 print("Strucutre size", buildArea.size)
 print("Structure blocks", buildArea.volume)
 
-structure = Structure(name="brickhouse-roofhouse-middle", offset=buildArea.offset, size=buildArea.size, blocks={})
+structure = Structure(
+    name="brickhouse-roofhouse-middle", offset=buildArea.offset, size=buildArea.size, blocks={}
+)
 print("Scanning structure", structure.name)
 for block_global in buildArea.inner:
     vec = block_global - buildArea.offset
@@ -71,4 +72,3 @@ filename = "structures/decoration/" + structure.name + ".pkl"
 print("Saving strucutre data to disk", filename)
 with open(filename, "wb") as f:
     pickle.dump(structure, f)
-

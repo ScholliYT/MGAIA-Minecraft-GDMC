@@ -4,13 +4,12 @@ from gdpc import Block
 from scipy.ndimage import gaussian_filter
 
 
-class MapHolder():
-
-    def __init__(self, ED,heights, ACCEPTABLE_BUILDING_SCORE):
+class MapHolder:
+    def __init__(self, ED, heights, ACCEPTABLE_BUILDING_SCORE):
         self.ED = ED
         self.heights = heights
 
-        #CONSTANTS
+        # CONSTANTS
         BUILD_AREA = ED.getBuildArea()  # BUILDAREA
         self.STARTX, self.STARTY, self.STARTZ = BUILD_AREA.begin
         self.LASTX, self.LASTY, self.LASTZ = BUILD_AREA.last
@@ -42,13 +41,19 @@ class MapHolder():
                     self.block_slope_score[x - STARTX, z - STARTZ] = 10
 
                 else:
-                    neighbour_list = [(x - STARTX + 1, z - STARTZ),(x - STARTX -1, z - STARTZ),
-                                      (x - STARTX, z - STARTZ + 1),(x - STARTX, z - STARTZ - 1)]
-                    for x_neighbour,z_neighbour in neighbour_list:
+                    neighbour_list = [
+                        (x - STARTX + 1, z - STARTZ),
+                        (x - STARTX - 1, z - STARTZ),
+                        (x - STARTX, z - STARTZ + 1),
+                        (x - STARTX, z - STARTZ - 1),
+                    ]
+                    for x_neighbour, z_neighbour in neighbour_list:
                         try:
                             neighbour_height = self.heights[(x_neighbour, z_neighbour)]
                             if not helper.is_tree(self.ED, x + 1, neighbour_height, z):
-                                score_current_block += np.absolute(height_current_block - neighbour_height)
+                                score_current_block += np.absolute(
+                                    height_current_block - neighbour_height
+                                )
                             else:
                                 score_current_block += 1
                         except:
@@ -57,98 +62,110 @@ class MapHolder():
 
                     self.block_slope_score[x - STARTX, z - STARTZ] = score_current_block
 
-        self.block_slope_score = gaussian_filter(self.block_slope_score, sigma=3, mode='constant')
+        self.block_slope_score = gaussian_filter(self.block_slope_score, sigma=3, mode="constant")
 
         if print_colors:
-
             for x in range(STARTX + 1, LASTX):
                 for z in range(STARTZ + 1, LASTZ):
                     height_current_block = self.heights[(x - STARTX, z - STARTZ)] - 1
                     score = self.block_slope_score[x - STARTX, z - STARTZ]
-                    if (score > 7):
+                    if score > 7:
                         self.ED.placeBlock((x, height_current_block, z), Block("red_wool"))
-                    elif (score > 5):
+                    elif score > 5:
                         self.ED.placeBlock((x, height_current_block, z), Block("pink_wool"))
-                    elif (score > 3):
+                    elif score > 3:
                         self.ED.placeBlock((x, height_current_block, z), Block("yellow_wool"))
-                    elif (score > self.ACCEPTABLE_BUILDING_SCORE):
+                    elif score > self.ACCEPTABLE_BUILDING_SCORE:
                         self.ED.placeBlock((x, height_current_block, z), Block("blue_wool"))
                     else:
                         self.ED.placeBlock((x, height_current_block, z), Block("green_wool"))
         return self.block_slope_score, self.tree_spots
 
-
-    def claim_zone(self, xstart, zstart, sizex, sizez, door,size_edges):
+    def claim_zone(self, xstart, zstart, sizex, sizez, door, size_edges):
         edges = 9
         for x in range(xstart - self.STARTX - edges, xstart + sizex - self.STARTX + edges):
             for z in range(zstart - self.STARTZ - edges, zstart + sizez - self.STARTZ + edges):
                 try:
-                    if self.building_places[x,z] == 0:
+                    if self.building_places[x, z] == 0:
                         self.building_places[x, z] = 10_000
                 except:
                     pass
 
-        for x in range(xstart - self.STARTX-1, xstart + sizex - self.STARTX+2):
-            for z in range(zstart - self.STARTZ-1, zstart + sizez - self.STARTZ+2):
+        for x in range(xstart - self.STARTX - 1, xstart + sizex - self.STARTX + 2):
+            for z in range(zstart - self.STARTZ - 1, zstart + sizez - self.STARTZ + 2):
                 try:
                     self.building_places[x, z] = 20_000
                 except:
                     pass
 
         # update slope score map, so we don't build there again
-        self.block_slope_score +=self.building_places
+        self.block_slope_score += self.building_places
         return
 
-
-
-
-    #recursively check reachable spots
-    def check_reachable_spots(self, x, y, reachable_spots,best_loc_x, best_loc_z , best_loc_y, distance_area_look):
+    # recursively check reachable spots
+    def check_reachable_spots(
+        self, x, y, reachable_spots, best_loc_x, best_loc_z, best_loc_y, distance_area_look
+    ):
         # Check if the spot has already been visited
         if (x, y) in reachable_spots:
             return reachable_spots
 
         # Check if the spot is reachable
-        if self.is_spot_reachable(x, y,best_loc_x, best_loc_z , best_loc_y, distance_area_look):
+        if self.is_spot_reachable(x, y, best_loc_x, best_loc_z, best_loc_y, distance_area_look):
             # Add the spot to the reachable spots array
             reachable_spots.append((x, y))
 
             # Check the neighbours of the spot recursively
-            reachable_spots = self.check_reachable_spots(x - 1, y,reachable_spots,best_loc_x, best_loc_z , best_loc_y, distance_area_look)  # Check left neighbour
-            reachable_spots = self.check_reachable_spots(x + 1, y,reachable_spots,best_loc_x, best_loc_z , best_loc_y, distance_area_look)  # Check right neighbour
-            reachable_spots = self.check_reachable_spots(x, y - 1,reachable_spots,best_loc_x, best_loc_z , best_loc_y, distance_area_look)  # Check top neighbour
-            reachable_spots = self.check_reachable_spots(x, y + 1,reachable_spots,best_loc_x, best_loc_z , best_loc_y, distance_area_look)  # Check bottom neighbour
+            reachable_spots = self.check_reachable_spots(
+                x - 1, y, reachable_spots, best_loc_x, best_loc_z, best_loc_y, distance_area_look
+            )  # Check left neighbour
+            reachable_spots = self.check_reachable_spots(
+                x + 1, y, reachable_spots, best_loc_x, best_loc_z, best_loc_y, distance_area_look
+            )  # Check right neighbour
+            reachable_spots = self.check_reachable_spots(
+                x, y - 1, reachable_spots, best_loc_x, best_loc_z, best_loc_y, distance_area_look
+            )  # Check top neighbour
+            reachable_spots = self.check_reachable_spots(
+                x, y + 1, reachable_spots, best_loc_x, best_loc_z, best_loc_y, distance_area_look
+            )  # Check bottom neighbour
 
         return reachable_spots
 
-
     # check if a spot is suitable to build
-    def is_spot_reachable(self, x, y ,best_loc_x, best_loc_z , best_loc_y, distance_area_look):
+    def is_spot_reachable(self, x, y, best_loc_x, best_loc_z, best_loc_y, distance_area_look):
         reachable = True
-        edge_dist = int((distance_area_look-1)/2)
-        corners = [[edge_dist,edge_dist],[edge_dist,-edge_dist],[-edge_dist,edge_dist],[-edge_dist,-edge_dist]]
-        for cor_x,cor_y in corners:
+        edge_dist = int((distance_area_look - 1) / 2)
+        corners = [
+            [edge_dist, edge_dist],
+            [edge_dist, -edge_dist],
+            [-edge_dist, edge_dist],
+            [-edge_dist, -edge_dist],
+        ]
+        for cor_x, cor_y in corners:
             middle_x = best_loc_x + distance_area_look * x + cor_x
-            middle_y = best_loc_z + distance_area_look * y+ cor_y
+            middle_y = best_loc_z + distance_area_look * y + cor_y
             if 0 < middle_x < self.SIZEX and 0 < middle_y < self.SIZEZ:
-                if not (best_loc_y-1 <= self.heights[middle_x, middle_y] <= best_loc_y + 1):
+                if not (best_loc_y - 1 <= self.heights[middle_x, middle_y] <= best_loc_y + 1):
                     reachable = False
-                if not (self.block_slope_score[middle_x, middle_y] < self.ACCEPTABLE_BUILDING_SCORE):
+                if not (
+                    self.block_slope_score[middle_x, middle_y] < self.ACCEPTABLE_BUILDING_SCORE
+                ):
                     reachable = False
             else:
                 reachable = False
         return reachable
 
-
     def find_spot(self, best_loc_x, best_loc_y, best_loc_z, size):
         # Define the array of reachable spots
         reachable_spots = []
         # Check the reachable spots from the starting point
-        reachable_spots = self.check_reachable_spots(0, 0, reachable_spots, best_loc_x, best_loc_z, best_loc_y, size)
+        reachable_spots = self.check_reachable_spots(
+            0, 0, reachable_spots, best_loc_x, best_loc_z, best_loc_y, size
+        )
 
         # Print the reachable spots
         if reachable_spots == []:
-            reachable_spots.append([0,0])
+            reachable_spots.append([0, 0])
 
         translated_coords = []
         min_x = min(x for x, y in reachable_spots)
@@ -162,8 +179,8 @@ class MapHolder():
         for x, y in reachable_spots:
             translated_coords.append((x - min_x, y - min_y))
 
-        grid_x = max(x for x, y in translated_coords)+1
-        grid_y = max(y for x, y in translated_coords)+1
+        grid_x = max(x for x, y in translated_coords) + 1
+        grid_y = max(y for x, y in translated_coords) + 1
         grid = [[0] * grid_y for _ in range(grid_x)]
 
         for x, y in translated_coords:
@@ -172,4 +189,4 @@ class MapHolder():
         for row in grid:
             print(row)
 
-        return best_loc_x + size*min_x, best_loc_z + size*min_y, grid
+        return best_loc_x + size * min_x, best_loc_z + size * min_y, grid

@@ -28,7 +28,6 @@ def load_structure(structure_name: str, structures_directory: str = "structures"
     return structure
 
 
-
 def build_structure(editor: Editor, structure: Structure, rotation: int) -> None:
     # adjust for rotation respecing bottom left corner aligned coordinate system of structure
     if rotation == 0:
@@ -36,11 +35,10 @@ def build_structure(editor: Editor, structure: Structure, rotation: int) -> None
     elif rotation == 1:
         translation_vec = ivec3(structure.size.x - 1, 0, 0)
     elif rotation == 2:
-        translation_vec = ivec3(structure.size.x - 1, 0, structure.size.z -1)
+        translation_vec = ivec3(structure.size.x - 1, 0, structure.size.z - 1)
     elif rotation == 3:
-        translation_vec = ivec3(0, 0, structure.size.z -1)
+        translation_vec = ivec3(0, 0, structure.size.z - 1)
 
-    
     with editor.pushTransform(Transform(translation=translation_vec)):
         with editor.pushTransform(Transform(rotation=rotation)):
             for vec, block in structure.blocks.items():

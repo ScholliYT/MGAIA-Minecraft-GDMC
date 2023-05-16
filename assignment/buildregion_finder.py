@@ -33,7 +33,6 @@ def buildPerimeter(editor, outer_rect: Rect, heights):
     # - 'MOTION_BLOCKING_NO_LEAVES': Like MOTION_BLOCKING but ignoring leaves
     # - 'OCEAN_FLOOR': The top solid blocks
 
-    
     STARTX, STARTZ = outer_rect.begin
     LASTX, LASTZ = outer_rect.last
 
@@ -78,16 +77,13 @@ def get_build_area(editor):
 
 
 def get_heights(editor, buildArea):
-
     print("BuildArea bottom left corner", buildArea.offset)
     print("BuildArea size", buildArea.size)
-
 
     print("Loading world slice...")
     buildRect = buildArea.toRect()
     worldSlice = editor.loadWorldSlice(buildRect, cache=True)
     print("World slice loaded!")
-
 
     # There are four types available in a world slice:
     # - 'WORLD_SURFACE': The top non-air blocks
@@ -114,12 +110,10 @@ def select_solution(solutions):
     return solution
 
 
-if __name__ == '__main__':
-
+if __name__ == "__main__":
     # Create an editor object.
     # The Editor class provides a high-level interface to interact with the Minecraft world.
     editor = Editor(buffering=True)
-
 
     # Check if the editor can connect to the GDMC HTTP interface.
     try:
@@ -127,26 +121,41 @@ if __name__ == '__main__':
     except InterfaceConnectionError:
         print(
             f"Error: Could not connect to the GDMC HTTP interface at {editor.host}!\n"
-            "To use GDPC, you need to use a \"backend\" that provides the GDMC HTTP interface.\n"
+            'To use GDPC, you need to use a "backend" that provides the GDMC HTTP interface.\n'
             "For example, by running Minecraft with the GDMC HTTP mod installed.\n"
             f"See {__url__}/README.md for more information."
         )
         sys.exit(1)
-    
+
     buildArea = get_build_area(editor)
     heights = get_heights(editor, buildArea)
 
     print("Building outer wall around BuildArea")
     buildPerimeter(editor, buildArea.toRect(), heights)
 
-    buffer=2
-    solutions = score_all_possible_buildregions(heights, square_sidelenght=11, min_adjecent_squares=2, max_adjecent_squares=5, buffer=buffer)
+    buffer = 2
+    solutions = score_all_possible_buildregions(
+        heights,
+        square_sidelenght=11,
+        min_adjecent_squares=2,
+        max_adjecent_squares=5,
+        buffer=buffer,
+    )
     best_solution = select_solution(solutions)
 
-    first = setY(buildArea.offset,0) + addY(ivec2(*best_solution[0]), best_solution[2])
+    first = setY(buildArea.offset, 0) + addY(ivec2(*best_solution[0]), best_solution[2])
     last = first + addY(ivec2(*best_solution[1]), 0)
-    print("Best position to build [", first.to_tuple(), last.to_tuple(), "] of size", best_solution[1] , "requires terraforming of", best_solution[3], "blocks")
+    print(
+        "Best position to build [",
+        first.to_tuple(),
+        last.to_tuple(),
+        "] of size",
+        best_solution[1],
+        "requires terraforming of",
+        best_solution[3],
+        "blocks",
+    )
     geo.placeCuboid(editor, first, last, Block("red_wool"))
 
     buffer_vec = ivec3(buffer, 0, buffer)
-    geo.placeCuboid(editor, first + buffer_vec, last - buffer_vec, Block("white_wool") )
+    geo.placeCuboid(editor, first + buffer_vec, last - buffer_vec, Block("white_wool"))

@@ -22,7 +22,7 @@ try:
 except InterfaceConnectionError:
     print(
         f"Error: Could not connect to the GDMC HTTP interface at {editor.host}!\n"
-        "To use GDPC, you need to use a \"backend\" that provides the GDMC HTTP interface.\n"
+        'To use GDPC, you need to use a "backend" that provides the GDMC HTTP interface.\n'
         "For example, by running Minecraft with the GDMC HTTP mod installed.\n"
         f"See {__url__}/README.md for more information."
     )
@@ -46,6 +46,3 @@ with editor.pushTransform(Transform(translation=destination_pos, rotation=0)):
         # vec = (-vec[0], vec[1], vec[2]) # mirror at axis
         editor.placeBlock(vec, block)
 editor.flushBuffer()
-
-
-
