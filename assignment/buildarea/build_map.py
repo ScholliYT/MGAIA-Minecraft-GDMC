@@ -1,7 +1,10 @@
-import helper as helper
+from typing import List
+
 import numpy as np
 from gdpc import Block
 from scipy.ndimage import gaussian_filter
+
+import assignment.buildarea.helper as helper
 
 
 class MapHolder:
@@ -181,7 +184,7 @@ class MapHolder:
 
         grid_x = max(x for x, y in translated_coords) + 1
         grid_y = max(y for x, y in translated_coords) + 1
-        grid = [[0] * grid_y for _ in range(grid_x)]
+        grid: List[List[int]] = [[0] * grid_y for _ in range(grid_x)]
 
         for x, y in translated_coords:
             grid[x][y] = 1

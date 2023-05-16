@@ -128,15 +128,11 @@ def structure_weights(structures: List[StructureRotation]):
             yield 1.0
 
 
-def random_building(size: Tuple[int, int, int] = (5, 2, 5)) -> WaveFunctionCollapse:
+def random_building(
+    size: Tuple[int, int, int] = (5, 2, 5), buildable: List[List[bool]] | None = None
+) -> WaveFunctionCollapse:
     wfc = WaveFunctionCollapse(size, structure_adjecencies, structure_weights)
-
-    def reinit():
-        collapse_to_air_on_outer_rectangle(wfc)
-
-        print("Outer rectangle")
-        print_state(wfc)
-
+    if buildable is None:
         buildable = [
             [True, True, True, True, True],
             [True, True, True, True, True],
@@ -144,6 +140,13 @@ def random_building(size: Tuple[int, int, int] = (5, 2, 5)) -> WaveFunctionColla
             [False, False, False, True, True],
             [False, False, False, True, True],
         ]
+
+    def reinit():
+        collapse_to_air_on_outer_rectangle(wfc)
+
+        print("Outer rectangle")
+        print_state(wfc)
+
         collapse_unbuildable_to_air(wfc, buildable)
 
         print("Unbuildable")
