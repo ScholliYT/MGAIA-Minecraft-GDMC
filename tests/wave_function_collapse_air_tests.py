@@ -1,11 +1,11 @@
 import itertools
 import unittest
 
-from assignment.utils.structure_adjacency import (
+from assignment.brickhouse.structure_adjacency import (
     StructureRotation,
     structure_adjecencies,
 )
-from assignment.utils.structures import (
+from assignment.brickhouse.structures import (
     brickhouse_entrance,
     brickhouse_middle,
     empty_space_air,

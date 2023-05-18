@@ -5,13 +5,12 @@ from gdpc import Editor, Transform
 from glm import ivec3
 from tqdm import tqdm
 
-from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structure_adjacency import (
+from assignment.brickhouse.structure_adjacency import (
     StructureRotation,
     all_rotations,
     structure_adjecencies,
 )
-from assignment.utils.structures import (
+from assignment.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,
@@ -29,6 +28,7 @@ from assignment.utils.structures import (
     brickhouse_small_window_flat_roof,
     empty_space_air,
 )
+from assignment.utils.structure import Structure, build_structure, load_structure
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,

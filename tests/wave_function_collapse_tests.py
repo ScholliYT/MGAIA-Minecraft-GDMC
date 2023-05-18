@@ -1,7 +1,7 @@
 import unittest
 
-from assignment.utils.structure_adjacency import StructureRotation, structure_adjecencies
-from assignment.utils.structures import (
+from assignment.brickhouse.structure_adjacency import StructureRotation, structure_adjecencies
+from assignment.brickhouse.structures import (
     brickhouse_center,
     brickhouse_entrance,
 )

@@ -1,6 +1,6 @@
 import unittest
 
-from assignment.utils.structure_adjacency import check_symmetry, structure_adjecencies
+from assignment.brickhouse.structure_adjacency import check_symmetry, structure_adjecencies
 
 
 class TestSymmetryChecker(unittest.TestCase):
