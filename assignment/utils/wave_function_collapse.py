@@ -2,7 +2,7 @@ import itertools
 import random
 from typing import Callable, Dict, List, Set, Tuple, Union
 
-from assignment.utils.structure_adjacency import StructureAdjacency, StructureRotation
+from assignment.brickhouse.structure_adjacency import StructureAdjacency, StructureRotation
 
 
 class CollapseOutsideOfSuperpositionException(Exception):
