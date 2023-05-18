@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass, field, replace
 from typing import Dict, List
 
-from assignment.utils.structures import (
+from assignment.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,

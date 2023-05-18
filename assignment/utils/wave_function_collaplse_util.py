@@ -1,7 +1,7 @@
 from typing import List
 
-from assignment.utils.structure_adjacency import StructureRotation
-from assignment.utils.structures import (
+from assignment.brickhouse.structure_adjacency import StructureRotation
+from assignment.brickhouse.structures import (
     empty_space_air,
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse

@@ -4,8 +4,7 @@ from gdpc import Block, Editor, Transform
 from gdpc import geometry as geo
 from glm import ivec3
 
-from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structures import (
+from assignment.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,
@@ -25,6 +24,7 @@ from assignment.utils.structures import (
     brickhouse_roofhouse_middle_to_flat_mirrored_x,
     brickhouse_small_window_flat_roof,
 )
+from assignment.utils.structure import Structure, build_structure, load_structure
 
 
 def build_strucutre_showcase(
