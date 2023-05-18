@@ -1,19 +1,13 @@
 def is_water(ED, x, y, z):
     type = ED.getBlock((x, y - 1, z))
-    if "water" in type.id:
-        return True
-    if "lava" in type.id:
-        return True
-    return False
+    water_specifiers = ["water", "lava", "ice"]
+    return any([x in type.id for x in water_specifiers])
 
 
 def is_tree(ED, x, y, z):
     type = ED.getBlock((x, y - 1, z))
-    if "wood" in type.id:
-        return True
-    if "log" in type.id:
-        return True
-    return False
+    wood_specifiers = ["wood", "log"]
+    return any([x in type.id for x in wood_specifiers])
 
 
 def is_air(ED, x, y, z):
