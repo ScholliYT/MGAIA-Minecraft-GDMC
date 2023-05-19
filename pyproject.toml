@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "assignment"
+version = "0.1.0"
+description = ""
+authors = ["Tom Stein <dev@tomstein.me>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10, <3.12"
+gdpc = {git = "https://github.com/avdstaaij/gdpc", tag = "v6.0.1"}
+tqdm = "^4.65.0"
+
+# dependencies of gdpc which were not detected automatically
+# matplotlib = "~3.6.2"
+# more-itertools = "~9.0.0"
+# NBT = "~1.5.1"
+# numpy = "~1.19.3"
+# opencv_python = "~4.5.1.48"
+# PyGLM = "~2.7.0"
+# pyglm-typing = "~0.2.1"
+# requests = "~2.22.0"
+# scikit-image = "~0.19.3"
+# scipy = "~1.9.3"
+# termcolor = "~2.1.1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.254"
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 99
+
+[tool.ruff]
+line-length = 99
+select = [
+    # Pyflakes
+    "F",
+    # Pycodestyle
+    "E",
+    "W",
+    # isort
+    "I001",
+]
+
+[tool.ruff.isort]
+known-first-party = ["assignment"]
