@@ -5,9 +5,7 @@ from gdpc import Editor, Transform
 from glm import ivec3
 from tqdm import tqdm
 
-from assignment.brickhouse.structure_adjacency import (
-    StructureRotation,
-    all_rotations,
+from assignment.brickhouse.structure_adjacencies import (
     structure_adjecencies,
 )
 from assignment.brickhouse.structures import (
@@ -29,6 +27,8 @@ from assignment.brickhouse.structures import (
     empty_space_air,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
+from assignment.utils.structure_adjacency import all_rotations
+from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,

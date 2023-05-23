@@ -1,8 +1,17 @@
 import unittest
 
-from assignment.brickhouse.structure_adjacency import check_symmetry, structure_adjecencies
+from assignment.bakery.structure_adjacencies import (
+    structure_adjecencies as bakery_structure_adjacencies,
+)
+from assignment.brickhouse.structure_adjacencies import (
+    structure_adjecencies as brickhouse_structure_adjecencies,
+)
+from assignment.utils.structure_adjacency import check_symmetry
 
 
 class TestSymmetryChecker(unittest.TestCase):
-    def test_current_structure_adjecencies_symmetry(self):
-        check_symmetry(structure_adjecencies)
+    def test_brickhouse_structure_adjecencies_symmetry(self):
+        check_symmetry(brickhouse_structure_adjecencies)
+
+    def test_bakery_structure_adjecencies_symmetry(self):
+        check_symmetry(bakery_structure_adjacencies)

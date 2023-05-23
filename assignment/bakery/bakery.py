@@ -5,39 +5,14 @@ from gdpc import Editor, Transform
 from glm import ivec3
 from tqdm import tqdm
 
-from assignment.bakery.structure_adjacency import (
-    StructureRotation,
-    all_rotations,
-)
-
-import assignment.bakery.structure_adjacency as sa
-
+import assignment.bakery.structure_adjacencies as sa
 from assignment.bakery.structures import (
-    bakery_corner_narrow_to_narrow,
-    bakery_corner_narrow_to_wide,
-    bakery_corner_wide_to_narrow,
-    bakery_corner_wide_to_wide,
-    bakery_corridor_corner,
-    bakery_corridor_end,
-    bakery_corridor_entrance,
-    bakery_corridor_straight,
-    bakery_corridor_to_left,
-    bakery_corridor_to_open,
-    bakery_corridor_to_right,
     bakery_entrance_open,
-    bakery_inner_corner_narrow,
-    bakery_inner_corner_wide,
-    bakery_middle_chairs,
-    bakery_middle_counter,
-    bakery_oven_narrow,
-    bakery_oven_wide,
-    bakery_wall_counter,
-    bakery_wall_narrow,
-    bakery_wall_wide,
     empty_space_air,
 )
-
 from assignment.utils.structure import Structure, build_structure, load_structure
+from assignment.utils.structure_adjacency import all_rotations
+from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,
@@ -45,12 +20,14 @@ from assignment.utils.wave_function_collaplse_util import (
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
+
 def structure_weights(structures: List[StructureRotation]):
     for s in structures:
         if s.structure_name == empty_space_air:
             yield 0.001
         else:
             yield 1.0
+
 
 def random_building(
     size: Tuple[int, int, int] = (5, 1, 5), buildable: List[List[bool]] | None = None
