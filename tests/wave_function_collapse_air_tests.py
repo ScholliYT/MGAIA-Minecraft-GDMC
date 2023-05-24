@@ -181,7 +181,7 @@ class WaveFunctionCollaplse5x1x5_Surrounded_Air_Test(unittest.TestCase):
             [True, True, False],
             [False, False, False],
         ]
-        collapse_unbuildable_to_air(self.wfc, buildable)
+        collapse_unbuildable_to_air(self.wfc, buildable, empty_space_air)
 
         retries = self.wfc.collapse_with_retry()
         self.assertLessEqual(retries, 50)
