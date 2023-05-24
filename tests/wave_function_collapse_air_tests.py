@@ -140,7 +140,7 @@ class WaveFunctionCollaplse3x1x3_Air_Test(unittest.TestCase):
 class WaveFunctionCollaplse5x1x5_Surrounded_Air_Test(unittest.TestCase):
     def setUp(self) -> None:
         self.wfc = WaveFunctionCollapse((5, 1, 5), structure_adjecencies)
-        collapse_to_air_on_outer_rectangle(self.wfc)
+        collapse_to_air_on_outer_rectangle(self.wfc, empty_space_air)
         return super().setUp()
 
     def _assert_centered_3x3_building(self):

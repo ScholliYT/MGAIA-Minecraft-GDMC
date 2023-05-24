@@ -91,7 +91,7 @@ structure_adjecencies = {
             StructureRotation(bakery_wall_narrow, 0),
             StructureRotation(bakery_wall_wide, 0),
         ],
-        z_plus=[
+        z_minus=[
             *all_rotations(empty_space_air),
             StructureRotation(bakery_corner_narrow_to_narrow, 0),
             StructureRotation(bakery_corner_narrow_to_narrow, 1),
@@ -120,7 +120,7 @@ structure_adjecencies = {
             StructureRotation(bakery_wall_narrow, 1),
             StructureRotation(bakery_wall_wide, 1),
         ],
-        z_minus=[
+        z_plus=[
             *all_rotations(empty_space_air),
             StructureRotation(bakery_corner_narrow_to_narrow, 2),
             StructureRotation(bakery_corner_narrow_to_narrow, 3),

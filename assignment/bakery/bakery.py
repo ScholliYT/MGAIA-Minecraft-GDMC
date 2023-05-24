@@ -20,6 +20,8 @@ from assignment.utils.wave_function_collaplse_util import (
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
+from assignment.utils.structure_adjacency import check_symmetry
+
 
 def structure_weights(structures: List[StructureRotation]):
     for s in structures:
@@ -30,33 +32,33 @@ def structure_weights(structures: List[StructureRotation]):
 
 
 def random_building(
-    size: Tuple[int, int, int] = (5, 1, 5), buildable: List[List[bool]] | None = None
+    size: Tuple[int, int, int] = (7, 1, 7), buildable: List[List[bool]] | None = None
 ) -> WaveFunctionCollapse:
-    wfc = WaveFunctionCollapse(size, sa.structure_adjacencies, structure_weights)
+    wfc = WaveFunctionCollapse(size, sa.structure_adjecencies, structure_weights)
     if buildable is None:
         buildable = [
             [True, True, True, True, True],
             [True, True, True, True, True],
-            [False, False, False, True, True],
-            [False, False, False, True, True],
-            [False, False, False, True, True],
+            [True, True, True, True, True],
+            [True, True, True, True, True],
+            [True, True, True, True, True],
         ]
 
     def reinit():
-        collapse_to_air_on_outer_rectangle(wfc)
+        collapse_to_air_on_outer_rectangle(wfc, empty_space_air)
 
         print("Outer rectangle")
         print_state(wfc)
 
-        collapse_unbuildable_to_air(wfc, buildable)
+        collapse_unbuildable_to_air(wfc, buildable, empty_space_air)
 
         print("Unbuildable")
         print_state(wfc)
 
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
+        wfc.collapse_random_cell()
+        wfc.collapse_random_cell()
         # wfc.collapse_random_cell()
 
         # wfc.collapse_cell_to_state([0,0,0], StructureRotation(empty_space_air, 0))
@@ -145,7 +147,7 @@ def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(-100, 0, 200))
+        ED.transform @= Transform(translation=ivec3(-100, 0, 300))
 
         print("Building house...")
         # building = deterministic_building()
@@ -161,4 +163,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # check_symmetry(sa.structure_adjecencies)
     main()

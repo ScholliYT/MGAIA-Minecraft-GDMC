@@ -1,8 +1,5 @@
 from typing import List
 
-from assignment.brickhouse.structures import (
-    empty_space_air,
-)
 from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
@@ -17,7 +14,7 @@ def print_state(wfc: WaveFunctionCollapse):
         print()
 
 
-def collapse_to_air_on_outer_rectangle(wfc: WaveFunctionCollapse):
+def collapse_to_air_on_outer_rectangle(wfc: WaveFunctionCollapse, empty_space_air):
     for x in range(wfc.state_space_size[0]):
         last = wfc.state_space_size[2] - 1
         wfc.collapse_cell_to_state([x, 0, 0], StructureRotation(empty_space_air, 0))
@@ -29,7 +26,7 @@ def collapse_to_air_on_outer_rectangle(wfc: WaveFunctionCollapse):
         wfc.collapse_cell_to_state([last, 0, z], StructureRotation(empty_space_air, 0))
 
 
-def collapse_unbuildable_to_air(wfc: WaveFunctionCollapse, buildable: List[List[bool]]):
+def collapse_unbuildable_to_air(wfc: WaveFunctionCollapse, buildable: List[List[bool]], empty_space_air):
     """Collapses all cells that are unbuildable to air
 
     Args:

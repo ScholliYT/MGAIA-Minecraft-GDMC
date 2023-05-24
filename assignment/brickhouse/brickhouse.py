@@ -142,12 +142,12 @@ def random_building(
         ]
 
     def reinit():
-        collapse_to_air_on_outer_rectangle(wfc)
+        collapse_to_air_on_outer_rectangle(wfc, empty_space_air)
 
         print("Outer rectangle")
         print_state(wfc)
 
-        collapse_unbuildable_to_air(wfc, buildable)
+        collapse_unbuildable_to_air(wfc, buildable, empty_space_air)
 
         print("Unbuildable")
         print_state(wfc)
@@ -248,7 +248,7 @@ def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(0, -60, 0))
+        ED.transform @= Transform(translation=ivec3(-100, 0, 200))
 
         print("Building house...")
         # building = deterministic_building()
