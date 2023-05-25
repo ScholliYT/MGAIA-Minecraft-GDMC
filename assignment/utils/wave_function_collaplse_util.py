@@ -4,12 +4,16 @@ from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
 
-def print_state(wfc: WaveFunctionCollapse):
+def print_state(wfc: WaveFunctionCollapse, air_name:str|None=None):
     for y in range(wfc.state_space_size[1]):
         print("Layer y=" + str(y))
         for x in reversed(range(wfc.state_space_size[0])):
             for z in range(wfc.state_space_size[2]):
-                print("{:02d}".format(len(wfc.state_space[x][y][z])), end=",")
+                state = wfc.state_space[x][y][z]
+                if air_name is not None and len(state) == 1 and (list(state)[0].structure_name == air_name):
+                    print("  ", end=",")
+                else:
+                    print("{:02d}".format(len(state)), end=",")
             print()
         print()
 

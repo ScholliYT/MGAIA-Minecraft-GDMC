@@ -20,6 +20,7 @@ def build_on_spot(
     z_array: int,
     house_grid: List[List[int]],
     size_struct: int,
+    build_grid_indicator: bool = True,
 ):
     xstart = x_array - int(size_struct / 2)
     zstart = z_array - int(size_struct / 2)
@@ -40,12 +41,14 @@ def build_on_spot(
                     editor, xstart, ystart, zstart, size_struct, size_struct, size_struct
                 )
                 # and remove trees first
-                with editor.pushTransform(
-                    Transform((xstart + x * size_struct, ystart, zstart + z * size_struct))
-                ):
-                    build_funcs.build_exterior_one_house_part(
-                        editor, size_struct, size_struct, size_struct, 0, 1
-                    )
+
+                if build_grid_indicator:
+                    with editor.pushTransform(
+                        Transform((xstart + x * size_struct, ystart, zstart + z * size_struct))
+                    ):
+                        build_funcs.build_exterior_one_house_part(
+                            editor, size_struct, size_struct, size_struct, 0, 1
+                        )
 
 
 # func that seeks location and orders to build a building over there,

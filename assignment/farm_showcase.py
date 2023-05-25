@@ -5,13 +5,6 @@ from gdpc import geometry as geo
 from glm import ivec3
 
 from assignment.farm.structures import (
-    farm_outside_corner,
-    farm_outside_corridor_corner,
-    farm_outside_corridor_end,
-    farm_outside_corridor_to_left,
-    farm_outside_corridor_to_right,
-    farm_outside_middle,
-    farm_outside_wall,
     farm_corner,
     farm_corridor_straight,
     farm_corridor_to_farm,
@@ -20,6 +13,13 @@ from assignment.farm.structures import (
     farm_corridor_to_right,
     farm_entrance,
     farm_middle,
+    farm_outside_corner,
+    farm_outside_corridor_corner,
+    farm_outside_corridor_end,
+    farm_outside_corridor_to_left,
+    farm_outside_corridor_to_right,
+    farm_outside_middle,
+    farm_outside_wall,
     farm_wall,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure

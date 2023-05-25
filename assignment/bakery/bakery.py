@@ -11,7 +11,7 @@ from assignment.bakery.structures import (
     empty_space_air,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structure_adjacency import all_rotations
+from assignment.utils.structure_adjacency import all_rotations, check_symmetry
 from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
@@ -19,8 +19,6 @@ from assignment.utils.wave_function_collaplse_util import (
     print_state,
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
-
-from assignment.utils.structure_adjacency import check_symmetry
 
 
 def structure_weights(structures: List[StructureRotation]):
