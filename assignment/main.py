@@ -68,9 +68,9 @@ def build_bakeries(mymap: MapHolder, ED: Editor, startx: int, startz: int, heigh
 
 
         building_location = ivec3(loc_x, loc_y, loc_z) - ivec3(size_struct, 0, size_struct) - ivec3(int(size_struct/2), 0, int(size_struct/2))
-        building_size = (len(house_grid)+2, 2, len(house_grid[0])+2)
+        building_size = (len(house_grid)+2, 1, len(house_grid[0])+2)
         print("Building bakery at", building_location, "of size", building_size)
-        build_on_spot(ED, mymap, loc_x, loc_y, loc_z, house_grid, size_struct)
+        build_on_spot(ED, mymap, loc_x, loc_y, loc_z, house_grid, size_struct, build_grid_indicator=False)
 
 
         with ED.pushTransform(Transform(translation=building_location)):
@@ -99,9 +99,9 @@ def build_farms(mymap: MapHolder, ED: Editor, startx: int, startz: int, heights:
 
 
         building_location = ivec3(loc_x, loc_y, loc_z) - ivec3(size_struct, 0, size_struct) - ivec3(int(size_struct/2), 0, int(size_struct/2))
-        building_size = (len(house_grid)+2, 2, len(house_grid[0])+2)
+        building_size = (len(house_grid)+2, 1, len(house_grid[0])+2)
         print("Building farm at", building_location, "of size", building_size)
-        build_on_spot(ED, mymap, loc_x, loc_y, loc_z, house_grid, size_struct)
+        build_on_spot(ED, mymap, loc_x, loc_y, loc_z, house_grid, size_struct, build_grid_indicator=False)
 
 
         with ED.pushTransform(Transform(translation=building_location)):
@@ -127,7 +127,7 @@ def main():
         mymap.find_flat_areas_and_trees(print_colors=False)
 
         build_brickhouses(mymap, ED, STARTX, STARTZ, heights)
-        # build_bakeries(mymap, ED, STARTX, STARTZ, heights)
+        build_bakeries(mymap, ED, STARTX, STARTZ, heights, count=1)
         build_farms(mymap, ED, STARTX, STARTZ, heights)
 
         print("Done!")

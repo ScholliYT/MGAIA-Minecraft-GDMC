@@ -55,8 +55,8 @@ def random_building(
 
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
-        wfc.collapse_random_cell()
-        wfc.collapse_random_cell()
+        # wfc.collapse_random_cell()
+        # wfc.collapse_random_cell()
         # wfc.collapse_random_cell()
 
         # wfc.collapse_cell_to_state([0,0,0], StructureRotation(empty_space_air, 0))
@@ -130,7 +130,7 @@ def build_bakery(
                     with editor.pushTransform(
                         Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
                     ):
-                        if not place_air and structure.name == empty_space_air:
+                        if not place_air and structure.name == 'empty-space-air':
                             continue
 
                         build_structure(editor, structure, rotation)

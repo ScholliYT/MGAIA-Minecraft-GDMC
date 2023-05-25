@@ -145,12 +145,12 @@ def random_building(
         collapse_to_air_on_outer_rectangle(wfc, empty_space_air)
 
         print("Outer rectangle")
-        print_state(wfc, empty_space_air=empty_space_air)
+        print_state(wfc, air_name=empty_space_air)
 
         collapse_unbuildable_to_air(wfc, buildable, empty_space_air)
 
         print("Unbuildable")
-        print_state(wfc, empty_space_air=empty_space_air)
+        print_state(wfc, air_name=empty_space_air)
 
 
         # wfc.collapse_random_cell()
@@ -194,7 +194,7 @@ def random_building(
         wfc._initialize_state_space_superposition()
         retries += 1 + wfc.collapse_with_retry(reinit=reinit)
     print(f"WFC collapsed after {retries} retries")
-    print_state(wfc, empty_space_air=empty_space_air)
+    print_state(wfc, air_name=empty_space_air)
     return wfc
 
 
