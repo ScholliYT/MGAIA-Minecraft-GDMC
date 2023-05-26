@@ -9,9 +9,3 @@ churchcorner_straight = "church/church-corner_straight"
 churchentrance = "church/church-entrance"
 churchstraight_no_altar = "church/church-straight_no_altar"
 churchstraight_to_altar = "church/church-straight_to_altar"
-
-# roofs
-churchroof_altar = "church/church-roof-altar"
-churchroof_corner = "church/church-roof-corner"
-churchroof_entrance = "church/church-roof-entrance"
-churchroof_straight = "church/church-roof-straight"

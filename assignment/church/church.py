@@ -147,16 +147,16 @@ def build_church(
     build_layer(0)
     print("Ground floor finished")
 
-    build_layer(1)
-    print("Top floor finished")
-    editor.flushBuffer()
+    # build_layer(1)
+    # print("Top floor finished")
+    # editor.flushBuffer()
 
 
 def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(-514, -60, 537))
+        ED.transform @= Transform(translation=ivec3(-217, -60, -2))
 
         print("Building house...")
         # building = deterministic_building()
@@ -172,5 +172,5 @@ def main():
 
 
 if __name__ == "__main__":
-    #check_symmetry(sa.structure_adjecencies)
+    check_symmetry(sa.structure_adjecencies)
     main()

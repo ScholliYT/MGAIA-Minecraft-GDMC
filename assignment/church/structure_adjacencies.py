@@ -9,11 +9,6 @@ from assignment.church.structures import (
     churchstraight_no_altar,
     churchstraight_to_altar,
 
-    # roofs
-    churchroof_altar,
-    churchroof_corner,
-    churchroof_entrance,
-    churchroof_straight,
     empty_space_air,
 )
 from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
@@ -42,18 +37,7 @@ structure_adjecencies = {
             StructureRotation(churchstraight_no_altar, 0),
             StructureRotation(churchstraight_no_altar, 2),
             StructureRotation(churchstraight_to_altar, 0),
-            StructureRotation(churchstraight_to_altar, 2),
-            #roofs
-            StructureRotation(churchroof_altar, 0),
-            StructureRotation(churchroof_altar, 2),
-            StructureRotation(churchroof_altar, 3),
-            StructureRotation(churchroof_corner, 0),
-            StructureRotation(churchroof_corner, 3),
-            StructureRotation(churchroof_entrance, 0),
-            StructureRotation(churchroof_entrance, 1),
-            StructureRotation(churchroof_entrance, 2),
-            StructureRotation(churchroof_straight, 0),
-            StructureRotation(churchroof_straight, 2),
+            StructureRotation(churchstraight_to_altar, 2)
         ],
         
         z_plus=[
@@ -73,18 +57,7 @@ structure_adjecencies = {
             StructureRotation(churchstraight_no_altar, 1),
             StructureRotation(churchstraight_no_altar, 3),
             StructureRotation(churchstraight_to_altar, 1),
-            StructureRotation(churchstraight_to_altar, 3),
-            #roofs
-            StructureRotation(churchroof_altar, 1),
-            StructureRotation(churchroof_altar, 2),
-            StructureRotation(churchroof_altar, 3),
-            StructureRotation(churchroof_corner, 2),
-            StructureRotation(churchroof_corner, 3),
-            StructureRotation(churchroof_entrance, 0),
-            StructureRotation(churchroof_entrance, 1),
-            StructureRotation(churchroof_entrance, 3),
-            StructureRotation(churchroof_straight, 1),
-            StructureRotation(churchroof_straight, 3),
+            StructureRotation(churchstraight_to_altar, 3)
         ],
         x_plus=[
             *all_rotations(empty_space_air),
@@ -103,18 +76,7 @@ structure_adjecencies = {
             StructureRotation(churchstraight_no_altar, 0),
             StructureRotation(churchstraight_no_altar, 2),
             StructureRotation(churchstraight_to_altar, 0),
-            StructureRotation(churchstraight_to_altar, 2),
-            #roofs
-            StructureRotation(churchroof_altar, 0),
-            StructureRotation(churchroof_altar, 1),
-            StructureRotation(churchroof_altar, 2),
-            StructureRotation(churchroof_corner, 1),
-            StructureRotation(churchroof_corner, 2),
-            StructureRotation(churchroof_entrance, 0),
-            StructureRotation(churchroof_entrance, 2),
-            StructureRotation(churchroof_entrance, 3),
-            StructureRotation(churchroof_straight, 0),
-            StructureRotation(churchroof_straight, 2),
+            StructureRotation(churchstraight_to_altar, 2)
         ],
 
         z_minus=[
@@ -134,18 +96,7 @@ structure_adjecencies = {
             StructureRotation(churchstraight_no_altar, 1),
             StructureRotation(churchstraight_no_altar, 3),
             StructureRotation(churchstraight_to_altar, 1),
-            StructureRotation(churchstraight_to_altar, 3),
-            #roofs
-            StructureRotation(churchroof_altar, 0),
-            StructureRotation(churchroof_altar, 1),
-            StructureRotation(churchroof_altar, 3),
-            StructureRotation(churchroof_corner, 0),
-            StructureRotation(churchroof_corner, 1),
-            StructureRotation(churchroof_entrance, 1),
-            StructureRotation(churchroof_entrance, 2),
-            StructureRotation(churchroof_entrance, 3),
-            StructureRotation(churchroof_straight, 1),
-            StructureRotation(churchroof_straight, 3),
+            StructureRotation(churchstraight_to_altar, 3)
         ],
     ),
     church_altar: StructureAdjacency(
@@ -156,11 +107,6 @@ structure_adjecencies = {
             StructureRotation(churchcorner_altar_right, 3),
             StructureRotation(churchentrance, 0),
             StructureRotation(churchstraight_to_altar, 0),
-        ],
-
-        y_plus=[
-            #roofs
-            StructureRotation(churchroof_altar, 0),
         ]
     ),
      churchcorner_altar_left: StructureAdjacency(
@@ -174,11 +120,6 @@ structure_adjecencies = {
 
         z_minus=[
             StructureRotation(churchstraight_no_altar, 0)
-        ],
-
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_corner, 1)
         ]
     ),
     churchcorner_altar_right: StructureAdjacency(
@@ -193,11 +134,6 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(churchentrance, 0),
             StructureRotation(churchstraight_no_altar, 0)
-        ],
-
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_corner, 0)
         ]
     ),
 
@@ -212,11 +148,6 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(churchentrance, 0),
             StructureRotation(churchstraight_no_altar, 0)
-        ],
-
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_corner, 0)
         ]
     ),
 
@@ -231,10 +162,6 @@ structure_adjecencies = {
             StructureRotation(churchstraight_no_altar, 0),
             StructureRotation(churchstraight_to_altar, 0)
             
-        ],
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_entrance, 0)
         ]
     ),
 
@@ -254,11 +181,6 @@ structure_adjecencies = {
             StructureRotation(churchentrance, 0),
             StructureRotation(churchcorner_straight, 3),
             StructureRotation(churchstraight_no_altar, 0)
-        ],
-
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_straight, 0)
         ]
     ),
 
@@ -278,58 +200,8 @@ structure_adjecencies = {
             StructureRotation(churchentrance, 0),
             StructureRotation(churchstraight_no_altar, 0),
             StructureRotation(churchstraight_to_altar, 0)
-        ],
-
-        y_plus = [
-            #roofs
-            StructureRotation(churchroof_straight, 0),
-        ]
-    ),
-
-    churchroof_altar: StructureAdjacency(
-        empty_space_air=empty_space_air,
-        structure_name=churchroof_altar,
-        
-        y_minus = [
-            #roofs
-            StructureRotation(church_altar, 0),
-        ]
-    ),
-
-    churchroof_corner: StructureAdjacency(
-        empty_space_air=empty_space_air,
-        structure_name=churchroof_corner,
-        
-        y_minus = [
-            #roofs
-            StructureRotation(churchcorner_altar_left, 3),
-            StructureRotation(churchcorner_altar_right, 0),
-            StructureRotation(churchcorner_straight, 0)   
-        ]
-    ),
-
-    churchroof_entrance: StructureAdjacency(
-        empty_space_air=empty_space_air,
-        structure_name=churchroof_entrance,
-        
-        y_minus = [
-            #roofs
-            StructureRotation(churchentrance, 0)
-        ]
-    ),
-
-    churchroof_straight: StructureAdjacency(
-        empty_space_air=empty_space_air,
-        structure_name=churchroof_straight,
-        
-        y_minus = [
-            #roofs
-            StructureRotation(churchstraight_no_altar, 0),
-            StructureRotation(churchstraight_to_altar, 0),
         ]
     )
-
-
 }
 
 if __name__ == "__main__":
