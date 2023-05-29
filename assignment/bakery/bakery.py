@@ -55,39 +55,16 @@ def random_building(
 
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-
-        # wfc.collapse_cell_to_state([0,0,0], StructureRotation(empty_space_air, 0))
-        # wfc.collapse_cell_to_state([3,0,3], StructureRotation(empty_space_air, 0))
-
-        # wfc.collapse_cell_to_state([1,0,1], StructureRotation(brickhouse_entrance, 0))
-        # wfc.collapse_cell_to_state([1,0,5], StructureRotation(brickhouse_entrance, 3))
-        # wfc.collapse_cell_to_state([1,0,3], StructureRotation(brickhouse_middle, 3))
-        # wfc.collapse_cell_to_state([1,0,4], StructureRotation(brickhouse_middle, 3))
-        # wfc.collapse_cell_to_state([1,0,5], StructureRotation(brickhouse_middle, 3))
-
-        # wfc.collapse_cell_to_state([5,0,5], StructureRotation(brickhouse_inner_corner_m2m, 0))
-        # wfc.collapse_cell_to_state([13,0,13], StructureRotation(brickhouse_center, 0))
-
-        # wfc.collapse_cell_to_state([4,0,4], StructureRotation(brickhouse_courtyard, 0))
-        # wfc.collapse_cell_to_state([11,0,4], StructureRotation(brickhouse_courtyard, 0))
-
-        # wfc.collapse_cell_to_state([1,1,3], StructureRotation(brickhouse_roofhouse_middle_to_flat, 0))
-
-        # wfc.collapse_cell_to_state([6,0,6], StructureRotation(brickhouse_entrance, 2))
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
-        set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        any(
+        air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
+        contains_door = any(
             [
                 StructureRotation(bakery_entrance_open, r) in set(wfc.used_structures())
                 for r in range(4)
             ]
         )
-        # return (not air_only) and contains_door
-        return True
+        return (not air_only) and contains_door
 
     retries = wfc.collapse_with_retry(reinit=reinit)
     while not building_criterion_met(wfc):  # used air structures only
@@ -115,20 +92,20 @@ def build_bakery(
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor
-    gf_strucutre_size = ivec3(7, 10, 7)
+    gf_structure_size = ivec3(7, 10, 7)
 
     def build_layer(layer: int):
         for row_idx, building_row in tqdm(list(enumerate(reversed(building)))):
             with editor.pushTransform(
                 Transform(
                     translation=ivec3(
-                        row_idx * gf_strucutre_size.x, layer * gf_strucutre_size.y, 0
+                        row_idx * gf_structure_size.x, layer * gf_structure_size.y, 0
                     )
                 )
             ):
                 for col_idx, (structure, rotation) in enumerate(building_row[layer]):
                     with editor.pushTransform(
-                        Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
+                        Transform(translation=ivec3(0, 0, col_idx * gf_structure_size.z))
                     ):
                         if not place_air and structure.name == "empty-space-air":
                             continue

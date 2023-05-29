@@ -18,7 +18,7 @@ class StructureAdjacency:
     empty_space_air: str
 
     # store a list of structures that can be adjacent in the specified rotation and placed above this
-    # (strucutre_name, rotation)
+    # (structure_name, rotation)
     y_plus: List[StructureRotation] = field(default_factory=list)
     y_minus: List[StructureRotation] = field(default_factory=list)
 

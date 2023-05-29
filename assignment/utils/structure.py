@@ -18,7 +18,7 @@ class Structure:
 @lru_cache
 def load_structure(structure_name: str, structures_directory: str = "structures") -> Structure:
     filename = structures_directory + "/" + structure_name + ".pkl"
-    print("Loading strucutre data from disk", filename)
+    print("Loading structure data from disk", filename)
     with open(filename, "rb") as f:
         structure = pickle.load(f)
 

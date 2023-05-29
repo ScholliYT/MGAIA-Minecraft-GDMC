@@ -5,13 +5,13 @@ from gdpc import Editor, Transform
 from glm import ivec3
 from tqdm import tqdm
 
-import assignment.farm.structure_adjacencies as sa
-from assignment.farm.structures import (
+import assignment.church.structure_adjacencies as sa
+from assignment.church.structures import (
+    churchentrance,
     empty_space_air,
-    farm_entrance,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structure_adjacency import all_rotations
+from assignment.utils.structure_adjacency import all_rotations, check_symmetry
 from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
@@ -37,9 +37,9 @@ def random_building(
         buildable = [
             [True, True, True, True, True],
             [True, True, True, True, True],
-            [True, False, True, True, True],
-            [True, False, False, True, True],
-            [False, True, True, True, True],
+            [True, True, True, True, True],
+            [True, True, True, True, True],
+            [True, True, True, True, True],
         ]
 
     def reinit():
@@ -59,7 +59,7 @@ def random_building(
     def building_criterion_met(wfc: WaveFunctionCollapse):
         air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
         contains_door = any(
-            [StructureRotation(farm_entrance, r) in set(wfc.used_structures()) for r in range(4)]
+            [StructureRotation(churchentrance, r) in set(wfc.used_structures()) for r in range(4)]
         )
         return (not air_only) and contains_door
 
@@ -83,11 +83,13 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-def build_farm(editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True):
-    assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
+def build_church(
+    editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
+):
+    assert len(building[0]) in (1,), "Only buildings of height 1 are supported"
 
     # same for all strucures on ground floor
-    gf_structure_size = ivec3(7, 10, 7)
+    gf_structure_size = ivec3(11, 6, 11)
 
     def build_layer(layer: int):
         for row_idx, building_row in tqdm(list(enumerate(reversed(building)))):
@@ -117,14 +119,14 @@ def main():
     ED = Editor(buffering=True)
 
     try:
-        ED.transform @= Transform(translation=ivec3(-150, 0, 300))
+        ED.transform @= Transform(translation=ivec3(200, 0, 101))
 
         print("Building house...")
         # building = deterministic_building()
 
-        wfc = random_building()
+        wfc = random_building(size=(7, 1, 7))
         building = wfc_state_to_minecraft_blocks(wfc.collapsed_state())
-        build_farm(editor=ED, building=building, place_air=False)
+        build_church(editor=ED, building=building, place_air=False)
 
         print("Done!")
 
@@ -133,5 +135,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # check_symmetry(sa.structure_adjecencies)
+    check_symmetry(sa.structure_adjecencies)
     main()
