@@ -3,6 +3,7 @@ from typing import List
 from gdpc import Block, Editor, Transform
 from gdpc import geometry as geo
 from glm import ivec3
+from tqdm import tqdm
 
 from assignment.utils.structure import Structure, build_structure
 
@@ -13,6 +14,7 @@ def build_structure_showcase(
     # same for all strucures
     structure_size = structures[0].size
 
+    print("Cleaning up area with air blocks")
     geo.placeCuboid(
         editor,
         ivec3(0, 0, 0),
@@ -26,7 +28,8 @@ def build_structure_showcase(
 
     editor.flushBuffer()
 
-    for rotation in range(4):
+    print("Placing all structures in all 4 rotations")
+    for rotation in tqdm(range(4), desc="Rotation"):
         with editor.pushTransform(
             Transform(
                 translation=ivec3(
