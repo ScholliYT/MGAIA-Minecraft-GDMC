@@ -1,9 +1,3 @@
-import os
-import sys
-
-parent_directory = r"C:\Users\sbone\Documents\Leiden Masters\YR1\SEM2\Modern Game AI Algorithms\Assignment 3\Bakery\MGAIA-Minecraft-GDMC-bakery"
-sys.path.append(os.path.abspath(parent_directory))
-
 import time
 from typing import List, Tuple
 
@@ -61,34 +55,13 @@ def random_building(
 
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-        # wfc.collapse_random_cell()
-
-        # wfc.collapse_cell_to_state([0,0,0], StructureRotation(empty_space_air, 0))
-        # wfc.collapse_cell_to_state([3,0,3], StructureRotation(empty_space_air, 0))
-
-        # wfc.collapse_cell_to_state([1,0,1], StructureRotation(brickhouse_entrance, 0))
-        # wfc.collapse_cell_to_state([1,0,5], StructureRotation(brickhouse_entrance, 3))
-        # wfc.collapse_cell_to_state([1,0,3], StructureRotation(brickhouse_middle, 3))
-        # wfc.collapse_cell_to_state([1,0,4], StructureRotation(brickhouse_middle, 3))
-        # wfc.collapse_cell_to_state([1,0,5], StructureRotation(brickhouse_middle, 3))
-
-        # wfc.collapse_cell_to_state([5,0,5], StructureRotation(brickhouse_inner_corner_m2m, 0))
-        # wfc.collapse_cell_to_state([13,0,13], StructureRotation(brickhouse_center, 0))
-
-        # wfc.collapse_cell_to_state([4,0,4], StructureRotation(brickhouse_courtyard, 0))
-        # wfc.collapse_cell_to_state([11,0,4], StructureRotation(brickhouse_courtyard, 0))
-
-        # wfc.collapse_cell_to_state([1,1,3], StructureRotation(brickhouse_roofhouse_middle_to_flat, 0))
-
-        # wfc.collapse_cell_to_state([6,0,6], StructureRotation(brickhouse_entrance, 2))
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
-        set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        any([StructureRotation(churchentrance, r) in set(wfc.used_structures()) for r in range(4)])
-        # return (not air_only) and contains_door
-        return True
+        air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
+        contains_door = any(
+            [StructureRotation(churchentrance, r) in set(wfc.used_structures()) for r in range(4)]
+        )
+        return (not air_only) and contains_door
 
     retries = wfc.collapse_with_retry(reinit=reinit)
     while not building_criterion_met(wfc):  # used air structures only
@@ -113,7 +86,7 @@ def wfc_state_to_minecraft_blocks(
 def build_church(
     editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
 ):
-    assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
+    assert len(building[0]) in (1,), "Only buildings of height 1 are supported"
 
     # same for all strucures on ground floor
     gf_strucutre_size = ivec3(11, 6, 11)
@@ -140,10 +113,6 @@ def build_church(
 
     build_layer(0)
     print("Ground floor finished")
-
-    # build_layer(1)
-    # print("Top floor finished")
-    # editor.flushBuffer()
 
 
 def main():

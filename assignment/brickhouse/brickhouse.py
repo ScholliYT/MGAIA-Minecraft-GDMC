@@ -178,15 +178,14 @@ def random_building(
         # wfc.collapse_cell_to_state([6,0,6], StructureRotation(brickhouse_entrance, 2))
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
-        set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        any(
+        air_only = set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
+        contains_door = any(
             [
                 StructureRotation(brickhouse_entrance, r) in set(wfc.used_structures())
                 for r in range(4)
             ]
         )
-        # return (not air_only) and contains_door
-        return True
+        return (not air_only) and contains_door
 
     retries = wfc.collapse_with_retry(reinit=reinit)
     while not building_criterion_met(wfc):  # used air structures only
