@@ -1,7 +1,7 @@
-import sys
 import os
+import sys
 
-parent_directory = r'C:\Users\sbone\Documents\Leiden Masters\YR1\SEM2\Modern Game AI Algorithms\Assignment 3\Bakery\MGAIA-Minecraft-GDMC-bakery'
+parent_directory = r"C:\Users\sbone\Documents\Leiden Masters\YR1\SEM2\Modern Game AI Algorithms\Assignment 3\Bakery\MGAIA-Minecraft-GDMC-bakery"
 sys.path.append(os.path.abspath(parent_directory))
 
 import time
@@ -86,12 +86,7 @@ def random_building(
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
         set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        any(
-            [
-                StructureRotation(churchentrance, r) in set(wfc.used_structures())
-                for r in range(4)
-            ]
-        )
+        any([StructureRotation(churchentrance, r) in set(wfc.used_structures()) for r in range(4)])
         # return (not air_only) and contains_door
         return True
 
@@ -115,7 +110,6 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-
 def build_church(
     editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
 ):
@@ -137,7 +131,7 @@ def build_church(
                     with editor.pushTransform(
                         Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
                     ):
-                        if not place_air and structure.name == 'empty-space-air':
+                        if not place_air and structure.name == "empty-space-air":
                             continue
 
                         build_structure(editor, structure, rotation)
