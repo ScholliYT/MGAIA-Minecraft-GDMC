@@ -7,7 +7,6 @@ from assignment.utils.structure_rotation import StructureRotation
 logger = logging.getLogger(__name__)
 
 
-
 @dataclass(frozen=True)
 class StructureAdjacency:
     """Store all possible other Structures that can be placed next to this structure
@@ -39,7 +38,6 @@ class StructureAdjacency:
         for a in not_set_yet:
             for x in all_rotations(self.empty_space_air):
                 a.append(x)
-
 
     def adjecent_structrues(self, axis: str, self_rotation: int) -> List[StructureRotation]:
         if axis not in ("y_plus", "y_minus", "x_plus", "x_minus", "z_plus", "z_minus"):
@@ -82,6 +80,7 @@ class StructureAdjacency:
 def all_rotations(structure: str):
     return [StructureRotation(structure, r) for r in range(4)]
 
+
 def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency]):
     """Verify that the symmetric coutnerpart for each rule is present
 
@@ -119,8 +118,8 @@ def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency]):
 
                 if len(matching_rules) == 0:
                     logger.error(
-                        "%s.%s: Symmetric rule for %s not found. Expected to find correctly " +
-                        "rotated %s in axis %s of %s. But there are actually: %s",
+                        "%s.%s: Symmetric rule for %s not found. Expected to find correctly "
+                        + "rotated %s in axis %s of %s. But there are actually: %s",
                         s_name,
                         axis,
                         rule,

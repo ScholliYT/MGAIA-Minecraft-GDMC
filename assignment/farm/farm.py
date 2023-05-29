@@ -7,8 +7,8 @@ from tqdm import tqdm
 
 import assignment.farm.structure_adjacencies as sa
 from assignment.farm.structures import (
-    farm_entrance,
     empty_space_air,
+    farm_entrance,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
 from assignment.utils.structure_adjacency import all_rotations
@@ -19,8 +19,6 @@ from assignment.utils.wave_function_collaplse_util import (
     print_state,
 )
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
-
-from assignment.utils.structure_adjacency import check_symmetry
 
 
 def structure_weights(structures: List[StructureRotation]):
@@ -82,12 +80,7 @@ def random_building(
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
         set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        any(
-            [
-                StructureRotation(farm_entrance, r) in set(wfc.used_structures())
-                for r in range(4)
-            ]
-        )
+        any([StructureRotation(farm_entrance, r) in set(wfc.used_structures()) for r in range(4)])
         # return (not air_only) and contains_door
         return True
 
@@ -111,9 +104,7 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-def build_farm(
-    editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
-):
+def build_farm(editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True):
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor
@@ -132,7 +123,7 @@ def build_farm(
                     with editor.pushTransform(
                         Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
                     ):
-                        if not place_air and structure.name == 'empty-space-air':
+                        if not place_air and structure.name == "empty-space-air":
                             continue
 
                         build_structure(editor, structure, rotation)
