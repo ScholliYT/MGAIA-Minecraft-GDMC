@@ -11,7 +11,7 @@ from assignment.bakery.structures import (
     empty_space_air,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structure_adjacency import all_rotations, check_symmetry
+from assignment.utils.structure_adjacency import all_rotations
 from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
@@ -130,7 +130,7 @@ def build_bakery(
                     with editor.pushTransform(
                         Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
                     ):
-                        if not place_air and structure.name == 'empty-space-air':
+                        if not place_air and structure.name == "empty-space-air":
                             continue
 
                         build_structure(editor, structure, rotation)

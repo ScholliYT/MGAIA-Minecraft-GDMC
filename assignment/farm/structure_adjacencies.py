@@ -1,13 +1,7 @@
 import logging
 
 from assignment.farm.structures import (
-    farm_outside_corner,
-    farm_outside_corridor_corner,
-    farm_outside_corridor_end,
-    farm_outside_corridor_to_left,
-    farm_outside_corridor_to_right,
-    farm_outside_middle,
-    farm_outside_wall,
+    empty_space_air,
     farm_corner,
     farm_corridor_straight,
     farm_corridor_to_farm,
@@ -16,10 +10,16 @@ from assignment.farm.structures import (
     farm_corridor_to_right,
     farm_entrance,
     farm_middle,
+    farm_outside_corner,
+    farm_outside_corridor_corner,
+    farm_outside_corridor_end,
+    farm_outside_corridor_to_left,
+    farm_outside_corridor_to_right,
+    farm_outside_middle,
+    farm_outside_wall,
     farm_wall,
-    empty_space_air,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations
 from assignment.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
@@ -150,7 +150,7 @@ structure_adjecencies = {
         ],
         z_minus=[
             *all_rotations(empty_space_air),
-        ]
+        ],
     ),
     farm_outside_corner: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -171,7 +171,7 @@ structure_adjecencies = {
             StructureRotation(farm_outside_corner, 1),
             StructureRotation(farm_outside_corridor_to_left, 2),
             StructureRotation(farm_corridor_to_right, 1),
-            StructureRotation(farm_outside_wall, 0)
+            StructureRotation(farm_outside_wall, 0),
         ],
     ),
     farm_outside_corridor_end: StructureAdjacency(
@@ -191,7 +191,7 @@ structure_adjecencies = {
             StructureRotation(farm_outside_corridor_to_left, 0),
             StructureRotation(farm_outside_corridor_to_right, 0),
             StructureRotation(farm_corridor_to_farm, 0),
-        ]
+        ],
     ),
     farm_outside_corridor_to_left: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -200,9 +200,9 @@ structure_adjecencies = {
             *all_rotations(empty_space_air),
         ],
         x_minus=[
-            StructureRotation(farm_outside_corner,0),
+            StructureRotation(farm_outside_corner, 0),
             StructureRotation(farm_outside_corridor_to_left, 1),
-            StructureRotation(farm_outside_corridor_to_right,0),
+            StructureRotation(farm_outside_corridor_to_right, 0),
             StructureRotation(farm_outside_wall, 3),
         ],
         z_plus=[
@@ -217,8 +217,8 @@ structure_adjecencies = {
             StructureRotation(farm_outside_corner, 2),
             StructureRotation(farm_outside_corridor_to_left, 3),
             StructureRotation(farm_outside_corridor_to_right, 2),
-            StructureRotation(farm_outside_wall, 2)
-        ]
+            StructureRotation(farm_outside_wall, 2),
+        ],
     ),
     farm_outside_corridor_to_right: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -244,7 +244,7 @@ structure_adjecencies = {
             StructureRotation(farm_outside_corner, 1),
             StructureRotation(farm_outside_corridor_to_left, 2),
             StructureRotation(farm_corridor_to_right, 1),
-            StructureRotation(farm_outside_wall, 0)
+            StructureRotation(farm_outside_wall, 0),
         ],
     ),
     farm_outside_middle: StructureAdjacency(
@@ -283,7 +283,7 @@ structure_adjecencies = {
             StructureRotation(farm_outside_corner, 1),
             StructureRotation(farm_outside_corridor_to_left, 2),
             StructureRotation(farm_outside_corridor_to_right, 1),
-        ]
+        ],
     ),
     farm_corner: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -309,7 +309,7 @@ structure_adjecencies = {
         ],
         z_minus=[
             *all_rotations(empty_space_air),
-        ]
+        ],
     ),
     farm_corridor_straight: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -335,7 +335,7 @@ structure_adjecencies = {
             StructureRotation(farm_corridor_to_left, 0),
             StructureRotation(farm_corridor_to_open, 0),
             StructureRotation(farm_corridor_to_right, 0),
-        ]
+        ],
     ),
     farm_corridor_to_farm: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -390,7 +390,7 @@ structure_adjecencies = {
             StructureRotation(farm_corridor_to_open, 2),
             StructureRotation(farm_entrance, 3),
             StructureRotation(farm_wall, 0),
-        ]
+        ],
     ),
     farm_corridor_to_open: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -423,7 +423,7 @@ structure_adjecencies = {
             StructureRotation(farm_corridor_to_open, 2),
             *all_rotations(farm_middle),
             StructureRotation(farm_wall, 3),
-        ]
+        ],
     ),
     farm_corridor_to_right: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -504,7 +504,7 @@ structure_adjecencies = {
             *all_rotations(farm_middle),
             StructureRotation(farm_corridor_to_open, 2),
             StructureRotation(farm_wall, 3),
-        ]
+        ],
     ),
     farm_wall: StructureAdjacency(
         empty_space_air=empty_space_air,
@@ -533,5 +533,5 @@ structure_adjecencies = {
             StructureRotation(farm_entrance, 3),
             StructureRotation(farm_wall, 0),
         ],
-    )
+    ),
 }

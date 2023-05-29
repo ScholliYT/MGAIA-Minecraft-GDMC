@@ -11,4 +11,3 @@ class StructureRotation:
 
     def rotate(self, amount: int):
         return replace(self, rotation=(self.rotation + amount) % 4)
-

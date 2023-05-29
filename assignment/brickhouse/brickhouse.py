@@ -152,7 +152,6 @@ def random_building(
         print("Unbuildable")
         print_state(wfc, air_name=empty_space_air)
 
-
         # wfc.collapse_random_cell()
         wfc.collapse_random_cell()
         wfc.collapse_random_cell()

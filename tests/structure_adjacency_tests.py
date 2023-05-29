@@ -18,6 +18,6 @@ class TestSymmetryChecker(unittest.TestCase):
 
     def test_bakery_structure_adjecencies_symmetry(self):
         check_symmetry(bakery_structure_adjacencies)
-    
+
     def test_farm_structure_adjecencies_symmetry(self):
         check_symmetry(farm_structure_adjacencies)
