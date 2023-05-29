@@ -56,7 +56,7 @@ print("World slice loaded!")
 
 
 print("Sturcutre bottom left corner", buildArea.offset)
-print("Strucutre size", buildArea.size)
+print("structure size", buildArea.size)
 print("Structure blocks", buildArea.volume)
 
 structure = Structure(
@@ -69,6 +69,6 @@ for block_global in buildArea.inner:
 
 # filename = "structures/" + structure.name + ".pkl"
 filename = "structures/decoration/" + structure.name + ".pkl"
-print("Saving strucutre data to disk", filename)
+print("Saving structure data to disk", filename)
 with open(filename, "wb") as f:
     pickle.dump(structure, f)

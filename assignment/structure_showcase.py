@@ -27,19 +27,19 @@ from assignment.brickhouse.structures import (
 from assignment.utils.structure import Structure, build_structure, load_structure
 
 
-def build_strucutre_showcase(
+def build_structure_showcase(
     editor: Editor, structures: List[Structure], space_between_structures=3
 ):
     # same for all strucures
-    strucutre_size = structures[0].size
+    structure_size = structures[0].size
 
     geo.placeCuboid(
         editor,
         ivec3(0, 0, 0),
         ivec3(
-            4 * (strucutre_size.x + 2 * space_between_structures),
+            4 * (structure_size.x + 2 * space_between_structures),
             16,
-            len(structures) * (strucutre_size.z + space_between_structures),
+            len(structures) * (structure_size.z + space_between_structures),
         ),
         Block("air"),
     )
@@ -50,7 +50,7 @@ def build_strucutre_showcase(
         with editor.pushTransform(
             Transform(
                 translation=ivec3(
-                    rotation * (strucutre_size.x + 2 * space_between_structures), 0, 0
+                    rotation * (structure_size.x + 2 * space_between_structures), 0, 0
                 )
             )
         ):
@@ -58,7 +58,7 @@ def build_strucutre_showcase(
                 with editor.pushTransform(
                     Transform(
                         translation=ivec3(
-                            0, 0, structure_idx * (strucutre_size.z + space_between_structures)
+                            0, 0, structure_idx * (structure_size.z + space_between_structures)
                         )
                     )
                 ):
@@ -95,7 +95,7 @@ def main():
         ]
 
         print("Building structure showcase")
-        build_strucutre_showcase(editor=ED, structures=structures)
+        build_structure_showcase(editor=ED, structures=structures)
 
         print("Done!")
 

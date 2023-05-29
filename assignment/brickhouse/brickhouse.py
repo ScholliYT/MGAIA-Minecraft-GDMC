@@ -214,20 +214,20 @@ def build_brickhouse(
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor
-    gf_strucutre_size = ivec3(11, 7, 11)
+    gf_structure_size = ivec3(11, 7, 11)
 
     def build_layer(layer: int):
         for row_idx, building_row in tqdm(list(enumerate(reversed(building)))):
             with editor.pushTransform(
                 Transform(
                     translation=ivec3(
-                        row_idx * gf_strucutre_size.x, layer * gf_strucutre_size.y, 0
+                        row_idx * gf_structure_size.x, layer * gf_structure_size.y, 0
                     )
                 )
             ):
                 for col_idx, (structure, rotation) in enumerate(building_row[layer]):
                     with editor.pushTransform(
-                        Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
+                        Transform(translation=ivec3(0, 0, col_idx * gf_structure_size.z))
                     ):
                         if not place_air and structure.name == empty_space_air:
                             continue
