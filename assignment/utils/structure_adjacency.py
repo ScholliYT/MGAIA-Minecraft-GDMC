@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from typing import Dict, List
+from typing import Dict, List, Set
 
 from assignment.utils.structure_rotation import StructureRotation
 
@@ -81,7 +81,7 @@ def all_rotations(structure: str):
     return [StructureRotation(structure, r) for r in range(4)]
 
 
-def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency]):
+def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency], structure_subset: None|Set[str] = None):
     """Verify that the symmetric coutnerpart for each rule is present
 
     Args:
@@ -92,14 +92,22 @@ def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency]):
         Exception: if too many rules were found
     """
     self_rotation = 0
-    for s_name in structure_adjecencies.keys():
+    structure_names = structure_adjecencies.keys()
+    if structure_subset:
+        structure_names = structure_subset.intersection(structure_names)
+
+    for s_name in structure_names:
         adj = structure_adjecencies[s_name]
 
         for axis in ("y_plus", "y_minus", "x_plus", "x_minus", "z_plus", "z_minus"):
             # for axis in ("y_plus","y_minus"):
             rules: List[StructureRotation] = getattr(adj, axis)
+
+            if structure_subset:
+                rules = [r for r in rules if r.structure_name in structure_names]
+
             for rule in rules:
-                if rule.structure_name not in structure_adjecencies:
+                if rule.structure_name not in structure_names:
                     raise KeyError(f"'{rule.structure_name}' not found in structure_adjecencies")
 
                 other_adj = structure_adjecencies[rule.structure_name]
