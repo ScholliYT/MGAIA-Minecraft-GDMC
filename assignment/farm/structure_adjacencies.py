@@ -19,7 +19,7 @@ from assignment.farm.structures import (
     farm_outside_wall,
     farm_wall,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations
+from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
 from assignment.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
@@ -103,10 +103,10 @@ structure_adjecencies = {
         ],
         z_minus=[
             *all_rotations(empty_space_air),
-            StructureRotation(farm_outside_corridor_corner, 0),
-            StructureRotation(farm_outside_corridor_corner, 3),
-            StructureRotation(farm_outside_corner, 1),
-            StructureRotation(farm_outside_corner, 2),
+            StructureRotation(farm_outside_corridor_corner, 1),
+            StructureRotation(farm_outside_corridor_corner, 2),
+            StructureRotation(farm_outside_corner, 0),
+            StructureRotation(farm_outside_corner, 3),
             StructureRotation(farm_outside_corridor_end, 0),
             StructureRotation(farm_outside_corridor_end, 1),
             StructureRotation(farm_outside_corridor_end, 3),
@@ -170,7 +170,7 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(farm_outside_corner, 1),
             StructureRotation(farm_outside_corridor_to_left, 2),
-            StructureRotation(farm_corridor_to_right, 1),
+            StructureRotation(farm_outside_corridor_to_right, 1),
             StructureRotation(farm_outside_wall, 0),
         ],
     ),
@@ -188,6 +188,7 @@ structure_adjecencies = {
         ],
         z_minus=[
             StructureRotation(farm_outside_corridor_corner, 0),
+            StructureRotation(farm_outside_corridor_corner, 3),
             StructureRotation(farm_outside_corridor_to_left, 0),
             StructureRotation(farm_outside_corridor_to_right, 0),
             StructureRotation(farm_corridor_to_farm, 0),
@@ -243,7 +244,7 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(farm_outside_corner, 1),
             StructureRotation(farm_outside_corridor_to_left, 2),
-            StructureRotation(farm_corridor_to_right, 1),
+            StructureRotation(farm_outside_corridor_to_right, 1),
             StructureRotation(farm_outside_wall, 0),
         ],
     ),
@@ -349,9 +350,9 @@ structure_adjecencies = {
         z_plus=[
             StructureRotation(farm_outside_corridor_corner, 1),
             StructureRotation(farm_outside_corridor_corner, 2),
-            StructureRotation(farm_outside_corridor_end, 2),
-            StructureRotation(farm_outside_corridor_to_left, 0),
-            StructureRotation(farm_outside_corridor_to_right, 0),
+            StructureRotation(farm_outside_corridor_end, 0),
+            StructureRotation(farm_outside_corridor_to_left, 2),
+            StructureRotation(farm_outside_corridor_to_right, 2),
         ],
         z_minus=[
             StructureRotation(farm_corridor_straight, 0),
@@ -386,8 +387,8 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(farm_corner, 0),
             StructureRotation(farm_corridor_to_left, 3),
-            StructureRotation(farm_corridor_to_right, 3),
-            StructureRotation(farm_corridor_to_open, 2),
+            StructureRotation(farm_corridor_to_right, 2),
+            StructureRotation(farm_corridor_to_open, 3),
             StructureRotation(farm_entrance, 3),
             StructureRotation(farm_wall, 0),
         ],
@@ -420,7 +421,6 @@ structure_adjecencies = {
             StructureRotation(farm_corridor_to_right, 2),
         ],
         z_minus=[
-            StructureRotation(farm_corridor_to_open, 2),
             *all_rotations(farm_middle),
             StructureRotation(farm_wall, 3),
         ],
@@ -476,8 +476,8 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(farm_corner, 0),
             StructureRotation(farm_corridor_to_left, 3),
-            StructureRotation(farm_corridor_to_right, 3),
-            StructureRotation(farm_corridor_to_open, 2),
+            StructureRotation(farm_corridor_to_right, 2),
+            StructureRotation(farm_corridor_to_open, 3),
             StructureRotation(farm_entrance, 3),
             StructureRotation(farm_wall, 0),
         ],
@@ -528,8 +528,8 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(farm_corner, 0),
             StructureRotation(farm_corridor_to_left, 3),
-            StructureRotation(farm_corridor_to_right, 3),
-            StructureRotation(farm_corridor_to_open, 2),
+            StructureRotation(farm_corridor_to_right, 2),
+            StructureRotation(farm_corridor_to_open, 3),
             StructureRotation(farm_entrance, 3),
             StructureRotation(farm_wall, 0),
         ],

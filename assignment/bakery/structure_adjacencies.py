@@ -189,6 +189,7 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_corridor_to_left, 3),
             StructureRotation(bakery_corridor_to_open, 3),
+            StructureRotation(bakery_corridor_to_right, 2),
             StructureRotation(bakery_entrance_open, 3),
             StructureRotation(bakery_oven_wide, 0),
             StructureRotation(bakery_wall_wide, 0),
@@ -209,6 +210,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corner_narrow_to_wide, 2),
             StructureRotation(bakery_corner_wide_to_wide, 0),
             StructureRotation(bakery_inner_corner_wide, 3),
+            StructureRotation(bakery_corridor_to_left, 2),
             StructureRotation(bakery_corridor_to_right, 1),
             StructureRotation(bakery_corridor_to_open, 1),
             StructureRotation(bakery_oven_wide, 2),
@@ -231,9 +233,9 @@ structure_adjecencies = {
         z_plus=[
             StructureRotation(bakery_corner_wide_to_wide, 3),
             StructureRotation(bakery_corner_wide_to_narrow, 0),
-            StructureRotation(bakery_corridor_to_left, 2),
-            StructureRotation(bakery_corridor_to_right, 1),
-            StructureRotation(bakery_corridor_to_open, 0),
+            StructureRotation(bakery_corridor_to_left, 1),
+            StructureRotation(bakery_corridor_to_right, 0),
+            StructureRotation(bakery_corridor_to_open, 1),
             StructureRotation(bakery_inner_corner_wide, 0),
             StructureRotation(bakery_entrance_open, 1),
             StructureRotation(bakery_oven_wide, 2),
@@ -312,6 +314,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corridor_corner, 0),
             StructureRotation(bakery_corridor_corner, 3),
             StructureRotation(bakery_corridor_end, 2),
+            StructureRotation(bakery_corridor_entrance, 2),
             StructureRotation(bakery_corridor_straight, 0),
             StructureRotation(bakery_corridor_straight, 2),
             StructureRotation(bakery_corridor_to_left, 0),
@@ -328,6 +331,7 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_oven_wide, 1),
             StructureRotation(bakery_wall_wide, 1),
+            StructureRotation(bakery_corridor_to_left, 1),
         ],
         z_plus=[
             StructureRotation(bakery_corridor_corner, 1),
@@ -357,6 +361,7 @@ structure_adjecencies = {
         x_plus=[
             StructureRotation(bakery_corner_wide_to_narrow, 3),
             StructureRotation(bakery_corner_wide_to_wide, 2),
+            StructureRotation(bakery_corridor_to_right, 3),
             StructureRotation(bakery_entrance_open, 0),
             StructureRotation(bakery_inner_corner_wide, 3),
             StructureRotation(bakery_oven_wide, 1),
@@ -368,6 +373,7 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_oven_wide, 1),
             StructureRotation(bakery_wall_wide, 1),
+            StructureRotation(bakery_corridor_to_left, 1),
         ],
         z_plus=[
             StructureRotation(bakery_corridor_corner, 1),
@@ -402,6 +408,7 @@ structure_adjecencies = {
         x_plus=[
             StructureRotation(bakery_corner_wide_to_narrow, 3),
             StructureRotation(bakery_corner_wide_to_wide, 2),
+            StructureRotation(bakery_corridor_to_right, 3),
             StructureRotation(bakery_entrance_open, 0),
             StructureRotation(bakery_inner_corner_wide, 3),
             StructureRotation(bakery_oven_wide, 1),
@@ -445,6 +452,9 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_oven_wide, 1),
             StructureRotation(bakery_wall_wide, 1),
+            StructureRotation(bakery_corridor_to_left, 1),
+            StructureRotation(bakery_corridor_to_open, 0),
+            StructureRotation(bakery_corridor_to_right, 0),
         ],
         z_minus=[
             StructureRotation(bakery_corridor_to_open, 2),
@@ -485,6 +495,8 @@ structure_adjecencies = {
             StructureRotation(bakery_corner_wide_to_wide, 0),
             StructureRotation(bakery_corridor_to_left, 2),
             StructureRotation(bakery_corridor_to_open, 2),
+            StructureRotation(bakery_corridor_to_right, 1),
+            StructureRotation(bakery_inner_corner_wide, 1),
             StructureRotation(bakery_oven_wide, 3),
             StructureRotation(bakery_wall_wide, 3),
             StructureRotation(bakery_entrance_open, 2),
@@ -508,6 +520,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corner_narrow_to_wide, 2),
             StructureRotation(bakery_corner_wide_to_wide, 0),
             StructureRotation(bakery_inner_corner_wide, 3),
+            StructureRotation(bakery_corridor_to_left, 2),
             StructureRotation(bakery_corridor_to_right, 1),
             StructureRotation(bakery_corridor_to_open, 1),
             StructureRotation(bakery_oven_wide, 2),
@@ -557,6 +570,7 @@ structure_adjecencies = {
         z_minus=[
             StructureRotation(bakery_corner_narrow_to_narrow, 2),
             StructureRotation(bakery_corner_wide_to_narrow, 1),
+            StructureRotation(bakery_entrance_open, 1),
             StructureRotation(bakery_oven_narrow, 2),
             StructureRotation(bakery_wall_narrow, 2),
             StructureRotation(bakery_wall_counter, 1),
@@ -712,6 +726,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corner_narrow_to_narrow, 0),
             StructureRotation(bakery_corner_wide_to_narrow, 3),
             StructureRotation(bakery_entrance_open, 3),
+            StructureRotation(bakery_inner_corner_narrow, 1),
             StructureRotation(bakery_oven_narrow, 0),
             StructureRotation(bakery_wall_narrow, 0),
             StructureRotation(bakery_wall_counter, 3),
@@ -749,6 +764,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corridor_to_left, 0),
             StructureRotation(bakery_corridor_to_open, 3),
             StructureRotation(bakery_corridor_to_right, 3),
+            StructureRotation(bakery_inner_corner_wide, 1),
             StructureRotation(bakery_oven_wide, 0),
             StructureRotation(bakery_wall_wide, 0),
         ],
@@ -758,6 +774,7 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_corridor_to_left, 3),
             StructureRotation(bakery_corridor_to_open, 3),
+            StructureRotation(bakery_corridor_to_right, 2),
             StructureRotation(bakery_entrance_open, 3),
             StructureRotation(bakery_oven_wide, 0),
             StructureRotation(bakery_wall_wide, 0),
@@ -821,6 +838,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corner_narrow_to_narrow, 0),
             StructureRotation(bakery_corner_wide_to_narrow, 3),
             StructureRotation(bakery_entrance_open, 3),
+            StructureRotation(bakery_inner_corner_narrow, 1),
             StructureRotation(bakery_oven_narrow, 0),
             StructureRotation(bakery_wall_narrow, 0),
             StructureRotation(bakery_wall_counter, 3),
@@ -858,6 +876,7 @@ structure_adjecencies = {
             StructureRotation(bakery_corridor_to_left, 0),
             StructureRotation(bakery_corridor_to_open, 3),
             StructureRotation(bakery_corridor_to_right, 3),
+            StructureRotation(bakery_inner_corner_wide, 1),
             StructureRotation(bakery_oven_wide, 0),
             StructureRotation(bakery_wall_wide, 0),
         ],
@@ -867,6 +886,7 @@ structure_adjecencies = {
             StructureRotation(bakery_inner_corner_wide, 2),
             StructureRotation(bakery_corridor_to_left, 3),
             StructureRotation(bakery_corridor_to_open, 3),
+            StructureRotation(bakery_corridor_to_right, 2),
             StructureRotation(bakery_entrance_open, 3),
             StructureRotation(bakery_oven_wide, 0),
             StructureRotation(bakery_wall_wide, 0),
@@ -875,6 +895,6 @@ structure_adjecencies = {
 }
 
 if __name__ == "__main__":
-    print(structure_adjecencies[bakery_corner_wide_to_narrow].adjecent_structrues("z_minus", 3))
+    # print(structure_adjecencies[bakery_corner_wide_to_narrow].adjecent_structrues("z_minus", 3))
 
     check_symmetry(structure_adjecencies)
