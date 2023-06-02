@@ -19,7 +19,7 @@ from assignment.farm.structures import (
     farm_outside_wall,
     farm_wall,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations
 from assignment.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)

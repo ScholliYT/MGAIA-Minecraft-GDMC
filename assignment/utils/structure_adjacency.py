@@ -81,7 +81,9 @@ def all_rotations(structure: str):
     return [StructureRotation(structure, r) for r in range(4)]
 
 
-def check_symmetry(structure_adjecencies: Dict[str, StructureAdjacency], structure_subset: None|Set[str] = None):
+def check_symmetry(
+    structure_adjecencies: Dict[str, StructureAdjacency], structure_subset: None | Set[str] = None
+):
     """Verify that the symmetric coutnerpart for each rule is present
 
     Args:
