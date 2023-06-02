@@ -6,7 +6,6 @@
 
 
 import pickle
-
 import time
 from typing import List, Tuple
 
@@ -16,10 +15,9 @@ from tqdm import tqdm
 
 import assignment.school.structure_adjacencies as sa
 from assignment.school.structures import (
+    empty_space_air,
     school_entrance,
     school_lower_stairs,
-    school_roof,
-    empty_space_air,
 )
 from assignment.utils.structure import Structure, build_structure, load_structure
 from assignment.utils.structure_adjacency import all_rotations, check_symmetry
@@ -91,20 +89,17 @@ def random_building(
 
     def building_criterion_met(wfc: WaveFunctionCollapse):
         set(wfc.used_structures()).issubset(set([*all_rotations(empty_space_air)]))
-        return (any(
-            [
-                StructureRotation(school_entrance, r) in set(wfc.used_structures())
-                for r in range(4)
-            ]
+        return any(
+            [StructureRotation(school_entrance, r) in set(wfc.used_structures()) for r in range(4)]
         ) and any(
             [
                 StructureRotation(school_lower_stairs, r) in set(wfc.used_structures())
                 for r in range(4)
-            ])
+            ]
         )
-        
+
         # return (not air_only) and contains_door
-        #return True
+        # return True
 
     retries = wfc.collapse_with_retry(reinit=reinit)
     while not building_criterion_met(wfc):  # used air structures only
@@ -124,7 +119,6 @@ def wfc_state_to_minecraft_blocks(
     ]
 
     return buidling
-
 
 
 def build_school(
@@ -148,21 +142,18 @@ def build_school(
                     with editor.pushTransform(
                         Transform(translation=ivec3(0, 0, col_idx * gf_strucutre_size.z))
                     ):
-                        if not place_air and structure.name == 'empty-space-air':
+                        if not place_air and structure.name == "empty-space-air":
                             continue
 
                         build_structure(editor, structure, rotation)
 
-                        if layer == 1 and structure.name != 'school-upper-entrance':
-                            with editor.pushTransform(
-                                Transform(translation=ivec3(0, 5, 0))
-                            ):
+                        if layer == 1 and structure.name != "school-upper-entrance":
+                            with editor.pushTransform(Transform(translation=ivec3(0, 5, 0))):
                                 structure_name = "school/school-roof"
                                 with open("structures/" + structure_name + ".pkl", "rb") as f:
                                     structure = pickle.load(f)
 
-
-                                #destination_pos = ivec3(-11, -60, 198)
+                                # destination_pos = ivec3(-11, -60, 198)
                                 print("Replicating building")
                                 for vec, block in structure.blocks.items():
                                     # vec = (-vec[0], vec[1], vec[2]) # mirror at axis
