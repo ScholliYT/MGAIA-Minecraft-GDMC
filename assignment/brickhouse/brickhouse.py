@@ -26,6 +26,7 @@ from assignment.brickhouse.structures import (
     brickhouse_small_window_flat_roof,
     empty_space_air,
 )
+from assignment.utils.not_buildable_exception import NotBuildableException
 from assignment.utils.structure import Structure, build_structure, load_structure
 from assignment.utils.structure_adjacency import all_rotations
 from assignment.utils.structure_rotation import StructureRotation
@@ -129,7 +130,7 @@ def structure_weights(structures: List[StructureRotation]):
 
 
 def random_building(
-    size: Tuple[int, int, int] = (5, 2, 5), buildable: List[List[bool]] | None = None
+    size: Tuple[int, int, int] = (5, 2, 5), buildable: List[List[bool]] | None = None, max_retries=50
 ) -> WaveFunctionCollapse:
     wfc = WaveFunctionCollapse(size, structure_adjecencies, structure_weights)
     if buildable is None:
@@ -188,9 +189,12 @@ def random_building(
         return (not air_only) and contains_door
 
     retries = wfc.collapse_with_retry(reinit=reinit)
-    while not building_criterion_met(wfc):  # used air structures only
+    while not building_criterion_met(wfc) and retries < max_retries:  # used air structures only
         wfc._initialize_state_space_superposition()
         retries += 1 + wfc.collapse_with_retry(reinit=reinit)
+
+    if retries >= max_retries:
+        raise NotBuildableException()
     print(f"WFC collapsed after {retries} retries")
     print_state(wfc, air_name=empty_space_air)
     return wfc
@@ -208,7 +212,7 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-def build_brickhouse(
+def build(
     editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
 ):
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
@@ -255,7 +259,7 @@ def main():
 
         wfc = random_building(size=(7, 2, 7))
         building = wfc_state_to_minecraft_blocks(wfc.collapsed_state())
-        build_brickhouse(editor=ED, building=building, place_air=False)
+        build(editor=ED, building=building, place_air=False)
 
         print("Done!")
 
