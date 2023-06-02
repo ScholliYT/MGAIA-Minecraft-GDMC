@@ -31,7 +31,7 @@ except InterfaceConnectionError:
 
 structure_name = "brickhouse-roofhouse-corner"
 filename = "structures/" + structure_name + ".pkl"
-print("Loading strucutre data from disk", filename)
+print("Loading structure data from disk", filename)
 with open(filename, "rb") as f:
     structure = pickle.load(f)
 

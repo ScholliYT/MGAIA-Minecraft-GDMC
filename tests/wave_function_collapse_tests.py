@@ -1,10 +1,13 @@
 import unittest
 
-from assignment.brickhouse.structure_adjacency import StructureRotation, structure_adjecencies
+from assignment.brickhouse.structure_adjacencies import (
+    structure_adjecencies,
+)
 from assignment.brickhouse.structures import (
     brickhouse_center,
     brickhouse_entrance,
 )
+from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import print_state
 from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 

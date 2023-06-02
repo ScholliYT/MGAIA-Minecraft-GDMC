@@ -20,6 +20,7 @@ def build_on_spot(
     z_array: int,
     house_grid: List[List[int]],
     size_struct: int,
+    build_grid_indicator: bool = True,
 ):
     xstart = x_array - int(size_struct / 2)
     zstart = z_array - int(size_struct / 2)
@@ -40,12 +41,14 @@ def build_on_spot(
                     editor, xstart, ystart, zstart, size_struct, size_struct, size_struct
                 )
                 # and remove trees first
-                with editor.pushTransform(
-                    Transform((xstart + x * size_struct, ystart, zstart + z * size_struct))
-                ):
-                    build_funcs.build_exterior_one_house_part(
-                        editor, size_struct, size_struct, size_struct, 0, 1
-                    )
+
+                if build_grid_indicator:
+                    with editor.pushTransform(
+                        Transform((xstart + x * size_struct, ystart, zstart + z * size_struct))
+                    ):
+                        build_funcs.build_exterior_one_house_part(
+                            editor, size_struct, size_struct, size_struct, 0, 1
+                        )
 
 
 # func that seeks location and orders to build a building over there,
@@ -94,14 +97,31 @@ if __name__ == "__main__":
 
     # Hypers for finding building spaces
     ACCEPTABLE_BUILDING_SCORE = 1.3
-    size_struct = 7
 
     mymap = MapHolder(ED, heights, ACCEPTABLE_BUILDING_SCORE)
     print("calculating heights and making Build Map...")
     mymap.find_flat_areas_and_trees(print_colors=True)
 
+    size_struct = 11
     print("Building Houses...")
-    for it in range(20):
+    for it in range(5):
+        (loc_x, loc_y, loc_z, house_grid) = compute_boxes(
+            ED,
+            mymap,
+            heights,
+            it,
+            start_x=STARTX,
+            start_z=STARTZ,
+            acceptable_building_score=ACCEPTABLE_BUILDING_SCORE,
+            size_struct=size_struct,
+        )
+        build_on_spot(ED, mymap, loc_x, loc_y, loc_z, house_grid, size_struct)
+
+        ED.flushBuffer()
+
+    size_struct = 7
+    print("Building Houses...")
+    for it in range(5):
         (loc_x, loc_y, loc_z, house_grid) = compute_boxes(
             ED,
             mymap,

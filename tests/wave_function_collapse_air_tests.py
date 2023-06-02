@@ -1,8 +1,7 @@
 import itertools
 import unittest
 
-from assignment.brickhouse.structure_adjacency import (
-    StructureRotation,
+from assignment.brickhouse.structure_adjacencies import (
     structure_adjecencies,
 )
 from assignment.brickhouse.structures import (
@@ -10,6 +9,7 @@ from assignment.brickhouse.structures import (
     brickhouse_middle,
     empty_space_air,
 )
+from assignment.utils.structure_rotation import StructureRotation
 from assignment.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,
@@ -140,7 +140,7 @@ class WaveFunctionCollaplse3x1x3_Air_Test(unittest.TestCase):
 class WaveFunctionCollaplse5x1x5_Surrounded_Air_Test(unittest.TestCase):
     def setUp(self) -> None:
         self.wfc = WaveFunctionCollapse((5, 1, 5), structure_adjecencies)
-        collapse_to_air_on_outer_rectangle(self.wfc)
+        collapse_to_air_on_outer_rectangle(self.wfc, empty_space_air)
         return super().setUp()
 
     def _assert_centered_3x3_building(self):
@@ -181,7 +181,7 @@ class WaveFunctionCollaplse5x1x5_Surrounded_Air_Test(unittest.TestCase):
             [True, True, False],
             [False, False, False],
         ]
-        collapse_unbuildable_to_air(self.wfc, buildable)
+        collapse_unbuildable_to_air(self.wfc, buildable, empty_space_air)
 
         retries = self.wfc.collapse_with_retry()
         self.assertLessEqual(retries, 50)
