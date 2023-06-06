@@ -1,10 +1,3 @@
-# import sys
-# import os
-
-# parent_directory = r'C:\Users\sbone\Documents\Leiden Masters\YR1\SEM2\Modern Game AI Algorithms\Assignment 3\Bakery\MGAIA-Minecraft-GDMC-bakery'
-# sys.path.append(os.path.abspath(parent_directory))
-
-
 import pickle
 import time
 from typing import List, Tuple

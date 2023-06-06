@@ -1,12 +1,13 @@
 """
 Script that generates short narrations for a minecraft settlement using LLM.
 """
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
-import numpy as np
-import re
 import json
-from gdpc import Block
+import re
+
 import glm
+import numpy as np
+from gdpc import Block
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 # from gdpc import __url__, Editor, Block, geometry, vector_tools, Transform
 # from gdpc.vector_tools import Rect, Box

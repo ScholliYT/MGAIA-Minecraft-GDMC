@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "assignment"
+name = "generator"
 version = "0.1.0"
 description = ""
 authors = ["Tom Stein <dev@tomstein.me>"]
@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10, <3.12"
 gdpc = {git = "https://github.com/avdstaaij/gdpc", tag = "v6.0.1"}
 tqdm = "^4.65.0"
+transformers = "^4.29.2"
 
 # dependencies of gdpc which were not detected automatically
 # matplotlib = "~3.6.2"
@@ -47,4 +48,4 @@ select = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["assignment"]
+known-first-party = ["generator"]
