@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import Dict, List, Set
 
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

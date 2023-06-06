@@ -1,7 +1,7 @@
 from gdpc import Editor, Transform
 from glm import ivec3
 
-from assignment.farm.structures import (
+from generator.farm.structures import (
     farm_corner,
     farm_corridor_straight,
     farm_corridor_to_farm,
@@ -19,8 +19,8 @@ from assignment.farm.structures import (
     farm_outside_wall,
     farm_wall,
 )
-from assignment.utils.structure import load_structure
-from assignment.utils.structure_showcase import build_structure_showcase
+from generator.utils.structure import load_structure
+from generator.utils.structure_showcase import build_structure_showcase
 
 
 def main():

@@ -1,7 +1,7 @@
 from gdpc import Editor, Transform
 from glm import ivec3
 
-from assignment.church.structures import (
+from generator.church.structures import (
     church_altar,
     churchcorner_altar_left,
     churchcorner_altar_right,
@@ -10,8 +10,8 @@ from assignment.church.structures import (
     churchstraight_no_altar,
     churchstraight_to_altar,
 )
-from assignment.utils.structure import load_structure
-from assignment.utils.structure_showcase import build_structure_showcase
+from generator.utils.structure import load_structure
+from generator.utils.structure_showcase import build_structure_showcase
 
 
 def main():

@@ -1,7 +1,7 @@
 from gdpc import Editor, Transform
 from glm import ivec3
 
-from assignment.brickhouse.structures import (
+from generator.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,
@@ -21,8 +21,8 @@ from assignment.brickhouse.structures import (
     brickhouse_roofhouse_middle_to_flat_mirrored_x,
     brickhouse_small_window_flat_roof,
 )
-from assignment.utils.structure import load_structure
-from assignment.utils.structure_showcase import build_structure_showcase
+from generator.utils.structure import load_structure
+from generator.utils.structure_showcase import build_structure_showcase
 
 
 def main():

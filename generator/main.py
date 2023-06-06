@@ -4,14 +4,14 @@ import numpy as np
 from gdpc import Editor, Transform
 from glm import ivec3
 
-import assignment.bakery.bakery as bakery
-import assignment.brickhouse.brickhouse as brickhouse
-import assignment.church.church as church
-import assignment.farm.farm as farm
-import assignment.school.school as school
-from assignment.buildarea.build_map import MapHolder
-from assignment.buildarea.team import build_on_spot, compute_boxes
-from assignment.utils.not_buildable_exception import NotBuildableException
+import generator.bakery.bakery as bakery
+import generator.brickhouse.brickhouse as brickhouse
+import generator.church.church as church
+import generator.farm.farm as farm
+import generator.school.school as school
+from generator.buildarea.build_map import MapHolder
+from generator.buildarea.team import build_on_spot, compute_boxes
+from generator.utils.not_buildable_exception import NotBuildableException
 
 # Hyperparameter for finding building spaces
 ACCEPTABLE_BUILDING_SCORE = 1.3

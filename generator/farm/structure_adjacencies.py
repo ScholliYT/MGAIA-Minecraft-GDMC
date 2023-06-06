@@ -1,6 +1,6 @@
 import logging
 
-from assignment.farm.structures import (
+from generator.farm.structures import (
     empty_space_air,
     farm_corner,
     farm_corridor_straight,
@@ -19,8 +19,8 @@ from assignment.farm.structures import (
     farm_outside_wall,
     farm_wall,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency, all_rotations
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

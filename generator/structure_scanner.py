@@ -17,7 +17,7 @@ import sys
 from gdpc import Editor, __url__
 from gdpc.exceptions import BuildAreaNotSetError, InterfaceConnectionError
 
-from assignment.utils.structure import Structure
+from generator.utils.structure import Structure
 
 # Create an editor object.
 # The Editor class provides a high-level interface to interact with the Minecraft world.

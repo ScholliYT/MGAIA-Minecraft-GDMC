@@ -1,7 +1,7 @@
 from typing import List
 
-from assignment.utils.structure_rotation import StructureRotation
-from assignment.utils.wave_function_collapse import WaveFunctionCollapse
+from generator.utils.structure_rotation import StructureRotation
+from generator.utils.wave_function_collapse import WaveFunctionCollapse
 
 
 def print_state(wfc: WaveFunctionCollapse, air_name: str | None = None):

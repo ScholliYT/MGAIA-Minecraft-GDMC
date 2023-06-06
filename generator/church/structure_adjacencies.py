@@ -1,6 +1,6 @@
 import logging
 
-from assignment.church.structures import (
+from generator.church.structures import (
     church_altar,
     churchcorner_altar_left,
     churchcorner_altar_right,
@@ -10,8 +10,8 @@ from assignment.church.structures import (
     churchstraight_to_altar,
     empty_space_air,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

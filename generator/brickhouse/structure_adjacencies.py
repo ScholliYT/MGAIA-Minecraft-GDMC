@@ -1,6 +1,6 @@
 import logging
 
-from assignment.brickhouse.structures import (
+from generator.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,
@@ -21,8 +21,8 @@ from assignment.brickhouse.structures import (
     brickhouse_small_window_flat_roof,
     empty_space_air,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

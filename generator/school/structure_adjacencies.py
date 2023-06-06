@@ -7,7 +7,7 @@
 
 import logging
 
-from assignment.school.structures import (
+from generator.school.structures import (
     empty_space_air,
     school_cafeteria,
     school_classroom,
@@ -20,8 +20,8 @@ from assignment.school.structures import (
     school_upper_middle,
     school_upper_stairs,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

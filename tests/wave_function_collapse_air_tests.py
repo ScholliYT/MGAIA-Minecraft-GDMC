@@ -1,21 +1,21 @@
 import itertools
 import unittest
 
-from assignment.brickhouse.structure_adjacencies import (
+from generator.brickhouse.structure_adjacencies import (
     structure_adjecencies,
 )
-from assignment.brickhouse.structures import (
+from generator.brickhouse.structures import (
     brickhouse_entrance,
     brickhouse_middle,
     empty_space_air,
 )
-from assignment.utils.structure_rotation import StructureRotation
-from assignment.utils.wave_function_collaplse_util import (
+from generator.utils.structure_rotation import StructureRotation
+from generator.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,
     print_state,
 )
-from assignment.utils.wave_function_collapse import WaveFunctionCollapse
+from generator.utils.wave_function_collapse import WaveFunctionCollapse
 
 empty_space_air_structure = StructureRotation(empty_space_air, 0)
 all_air_structures = set([StructureRotation(empty_space_air, r) for r in range(4)])

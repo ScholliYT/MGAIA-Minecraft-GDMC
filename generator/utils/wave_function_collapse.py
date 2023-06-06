@@ -2,8 +2,8 @@ import itertools
 import random
 from typing import Callable, Dict, List, Set, Tuple, Union
 
-from assignment.utils.structure_adjacency import StructureAdjacency
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency
+from generator.utils.structure_rotation import StructureRotation
 
 
 class CollapseOutsideOfSuperpositionException(Exception):

@@ -5,9 +5,9 @@ import numpy as np
 from gdpc import Editor, Transform
 from termcolor import colored
 
-import assignment.buildarea.build_functions as build_funcs
-import assignment.buildarea.helper as helper
-from assignment.buildarea.build_map import MapHolder
+import generator.buildarea.build_functions as build_funcs
+import generator.buildarea.helper as helper
+from generator.buildarea.build_map import MapHolder
 
 logging.basicConfig(format=colored("%(name)s - %(levelname)s - %(message)s", color="yellow"))
 

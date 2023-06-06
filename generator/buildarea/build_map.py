@@ -4,7 +4,7 @@ import numpy as np
 from gdpc import Block
 from scipy.ndimage import gaussian_filter
 
-import assignment.buildarea.helper as helper
+import generator.buildarea.helper as helper
 
 
 class MapHolder:

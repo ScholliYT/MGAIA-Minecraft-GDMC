@@ -5,10 +5,10 @@ from gdpc import Editor, Transform
 from glm import ivec3
 from tqdm import tqdm
 
-from assignment.brickhouse.structure_adjacencies import (
+from generator.brickhouse.structure_adjacencies import (
     structure_adjecencies,
 )
-from assignment.brickhouse.structures import (
+from generator.brickhouse.structures import (
     brickhouse_balcony,
     brickhouse_big_window_flat_roof,
     brickhouse_center,
@@ -26,16 +26,16 @@ from assignment.brickhouse.structures import (
     brickhouse_small_window_flat_roof,
     empty_space_air,
 )
-from assignment.utils.not_buildable_exception import NotBuildableException
-from assignment.utils.structure import Structure, build_structure, load_structure
-from assignment.utils.structure_adjacency import all_rotations
-from assignment.utils.structure_rotation import StructureRotation
-from assignment.utils.wave_function_collaplse_util import (
+from generator.utils.not_buildable_exception import NotBuildableException
+from generator.utils.structure import Structure, build_structure, load_structure
+from generator.utils.structure_adjacency import all_rotations
+from generator.utils.structure_rotation import StructureRotation
+from generator.utils.wave_function_collaplse_util import (
     collapse_to_air_on_outer_rectangle,
     collapse_unbuildable_to_air,
     print_state,
 )
-from assignment.utils.wave_function_collapse import WaveFunctionCollapse
+from generator.utils.wave_function_collapse import WaveFunctionCollapse
 
 
 def deterministic_building() -> List[List[List[Tuple[Structure, int]]]]:

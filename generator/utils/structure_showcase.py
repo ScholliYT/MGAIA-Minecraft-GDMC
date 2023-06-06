@@ -5,7 +5,7 @@ from gdpc import geometry as geo
 from glm import ivec3
 from tqdm import tqdm
 
-from assignment.utils.structure import Structure, build_structure
+from generator.utils.structure import Structure, build_structure
 
 
 def build_structure_showcase(

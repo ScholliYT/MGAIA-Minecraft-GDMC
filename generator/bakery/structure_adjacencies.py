@@ -1,6 +1,6 @@
 import logging
 
-from assignment.bakery.structures import (
+from generator.bakery.structures import (
     bakery_corner_narrow_to_narrow,
     bakery_corner_narrow_to_wide,
     bakery_corner_wide_to_narrow,
@@ -24,8 +24,8 @@ from assignment.bakery.structures import (
     bakery_wall_wide,
     empty_space_air,
 )
-from assignment.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
-from assignment.utils.structure_rotation import StructureRotation
+from generator.utils.structure_adjacency import StructureAdjacency, all_rotations, check_symmetry
+from generator.utils.structure_rotation import StructureRotation
 
 logger = logging.getLogger(__name__)
 

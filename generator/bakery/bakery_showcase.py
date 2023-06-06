@@ -1,7 +1,7 @@
 from gdpc import Editor, Transform
 from glm import ivec3
 
-from assignment.bakery.structures import (
+from generator.bakery.structures import (
     bakery_corner_narrow_to_narrow,
     bakery_corner_narrow_to_wide,
     bakery_corner_wide_to_narrow,
@@ -24,8 +24,8 @@ from assignment.bakery.structures import (
     bakery_wall_narrow,
     bakery_wall_wide,
 )
-from assignment.utils.structure import load_structure
-from assignment.utils.structure_showcase import build_structure_showcase
+from generator.utils.structure import load_structure
+from generator.utils.structure_showcase import build_structure_showcase
 
 
 def main():
