@@ -219,7 +219,7 @@ class WaveFunctionCollapse:
 
         return True
 
-    def collapse_with_retry(self, max_retry=1000, reinit: Union[None, Callable] = None) -> int:
+    def collapse_with_retry(self, max_retry=20, reinit: Union[None, Callable] = None) -> int:
         retry_counter = 0
 
         # call reinit initially once

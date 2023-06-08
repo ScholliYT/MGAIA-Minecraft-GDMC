@@ -2,7 +2,7 @@ from types import ModuleType
 from typing import List
 
 import numpy as np
-from gdpc import Editor, Transform
+from gdpc import Block, Editor, Transform
 from glm import ivec3
 
 import assignment.bakery.bakery as bakery
@@ -11,8 +11,10 @@ import assignment.church.church as church
 import assignment.farm.farm as farm
 import assignment.school.school as school
 from assignment.buildarea.build_map import MapHolder
+from assignment.buildarea.helper import is_water
 from assignment.buildarea.team import build_on_spot, compute_boxes
 from assignment.narrator.narrator import place_narration_block
+from assignment.pathing.water_real import make_paths
 from assignment.utils.building_info import BuildingInfo
 from assignment.utils.not_collapsable_exception import NotCollapsableException
 
@@ -67,7 +69,7 @@ def build_building(
     # some index shifts because of differend formats
     used_zones = [
         [
-            int(building[-xi - 2][0][zi + 1][0].name != building_module.empty_space_air)
+            int(building[-xi - 2][0][zi + 1][0].name != "empty-space-air") # building_module.empty_space_air does not work here because of paths in the name
             for zi, zs in enumerate(xs)
         ]
         for xi, xs in enumerate(buildable)
@@ -127,7 +129,7 @@ def build_bakery(
     print("Building Bakery")
     size_struct = 7
     wfc_height = 1
-    offset = ivec3(0, 0, 0)
+    offset = ivec3(0, -1, 0)
     return build_building(
         building_module=bakery,
         size_struct=size_struct,
@@ -149,7 +151,7 @@ def build_farm(
     print("Building Farm")
     size_struct = 7
     wfc_height = 1
-    offset = ivec3(0, 0, 0)
+    offset = ivec3(0, -1, 0)
     return build_building(
         building_module=farm,
         size_struct=size_struct,
@@ -217,12 +219,13 @@ def main():
     STARTX, _, STARTZ = BUILD_AREA.begin
 
     WORLDSLICE = ED.loadWorldSlice(BUILD_AREA.toRect(), cache=True)  # this takes a while
-    heights = np.array(WORLDSLICE.heightmaps["MOTION_BLOCKING_NO_LEAVES"])
+    heightmap = np.array(WORLDSLICE.heightmaps["MOTION_BLOCKING_NO_LEAVES"])
 
     try:
-        mymap = MapHolder(ED, heights, ACCEPTABLE_BUILDING_SCORE)
         print("Calculating heights and making Build Map...")
+        mymap = MapHolder(ED, heightmap, ACCEPTABLE_BUILDING_SCORE)
         mymap.find_flat_areas_and_trees(print_colors=False)
+        map_block_slope_score = np.copy(mymap.block_slope_score)
         print("Build Map complete")
 
         building_infos: List[BuildingInfo] = []
@@ -238,7 +241,7 @@ def main():
         )
         while building_no < MAX_BUILDINGS and building_sucessful:
             for bf in building_functions:
-                building_info = bf(mymap, ED, STARTX, STARTZ, heights, building_no=building_no)
+                building_info = bf(mymap, ED, STARTX, STARTZ, heightmap, building_no=building_no)
 
                 if building_info is not None:
                     building_infos.append(building_info)
@@ -256,6 +259,36 @@ def main():
                     ED, command_block_location, house_type=building_info.building_type
                 )
 
+        if sum([len(x.command_block_locations) for x in building_infos]) > 1:
+            print("Generating paths to connect buildings with each other")
+            # filter map for 20000
+            filtered_building_map = np.zeros_like(mymap.building_places)
+            filtered_building_map[mymap.building_places == 20_000] = 1
+
+            # add positions of doors
+            for building_info in building_infos:
+                for command_block_location in building_info.command_block_locations:
+                    relative_position = command_block_location - ivec3(STARTX, 0, STARTZ)
+                    filtered_building_map[relative_position[0]][relative_position[2]] = 2
+
+            final_paths = make_paths(slope=map_block_slope_score, map=filtered_building_map)
+            print("Building paths")
+            for x in range(final_paths.shape[0]):
+                for z in range(final_paths.shape[1]):
+                    if final_paths[x][z] != 1:
+                        continue
+
+                    global_position = ivec3(x, heightmap[x][z], z) + ivec3(STARTX, 0, STARTZ)
+
+                    if is_water(ED, global_position[0], global_position[1], global_position[2]):
+                        ED.placeBlockGlobal(global_position, Block("oak_slab"))
+                    else:
+                        ED.placeBlockGlobal(global_position, Block("gravel")) # Block("dirt_path")
+        else:
+            print("Not enough buildings to connect them with paths. At least 2 entrances are required.")
+
+
+        ED.flushBuffer()
         print("Done with settlement generation!")
 
     except KeyboardInterrupt:  # useful for aborting a run-away program

@@ -112,6 +112,8 @@ class MapHolder:
         # Check if the spot has already been visited
         if (x, y) in reachable_spots:
             return reachable_spots
+        elif len(reachable_spots) > 18:
+            return reachable_spots
 
         # Check if the spot is reachable
         if self.is_spot_reachable(x, y, best_loc_x, best_loc_z, best_loc_y, distance_area_look):
@@ -148,7 +150,7 @@ class MapHolder:
             middle_x = best_loc_x + distance_area_look * x + cor_x
             middle_y = best_loc_z + distance_area_look * y + cor_y
             if 0 < middle_x < self.SIZEX and 0 < middle_y < self.SIZEZ:
-                if not (best_loc_y - 1 <= self.heights[middle_x, middle_y] <= best_loc_y + 1):
+                if not (best_loc_y - 2 <= self.heights[middle_x, middle_y] <= best_loc_y + 2):
                     reachable = False
                 if not (
                     self.block_slope_score[middle_x, middle_y] < self.ACCEPTABLE_BUILDING_SCORE
