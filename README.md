@@ -83,6 +83,10 @@ Way larger areas unfortunately don't work because of recursion depth limitations
 
 # Story Generation (LLM)
 
+## Regenerating texts
+
+Run the following command to regenerate all texts using the LLM: `poetry run python3 assignment/narrator/narrator.py`.
+
 
 ## Info
 This project was realized as the third assignment of the course Modern Game AI Algorithms at Leiden University.
