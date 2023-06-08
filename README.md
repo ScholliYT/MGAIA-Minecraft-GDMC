@@ -79,6 +79,7 @@ Way larger areas unfortunately don't work because of recursion depth limitations
 
 
 # Paths Between Buildings
+We experimented with different algorithms to generate naturally looking paths to connect the buildings. The code for the experiments can be found in `Pathing_stand_alone_code`.
 
 
 # Story Generation (LLM)
