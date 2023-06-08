@@ -60,15 +60,15 @@ print("structure size", buildArea.size)
 print("Structure blocks", buildArea.volume)
 
 structure = Structure(
-    name="brickhouse-roofhouse-middle", offset=buildArea.offset, size=buildArea.size, blocks={}
+    name="brickhouse-entrance", offset=buildArea.offset, size=buildArea.size, blocks={}
 )
 print("Scanning structure", structure.name)
 for block_global in buildArea.inner:
     vec = block_global - buildArea.offset
     structure.blocks[vec] = worldSlice.getBlockGlobal(block_global)
 
-# filename = "structures/" + structure.name + ".pkl"
-filename = "structures/decoration/" + structure.name + ".pkl"
+filename = "structures/" + structure.name + ".pkl"
+# filename = "structures/decoration/" + structure.name + ".pkl"
 print("Saving structure data to disk", filename)
 with open(filename, "wb") as f:
     pickle.dump(structure, f)

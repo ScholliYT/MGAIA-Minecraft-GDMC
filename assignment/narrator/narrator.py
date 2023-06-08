@@ -2,17 +2,20 @@
 Script that generates short narrations for a minecraft settlement using LLM.
 """
 import json
+import os
 import re
 
 import glm
 import numpy as np
-from gdpc import Block
+from gdpc import Block, Editor
+from glm import ivec3
 from tqdm import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 # from gdpc import __url__, Editor, Block, geometry, vector_tools, Transform
 # from gdpc.vector_tools import Rect, Box
 
+script_dir = os.path.dirname(__file__)
 
 def generate_narrations(building_types, path="narrations.json", n=5):
     """
@@ -78,6 +81,7 @@ def generate_narrations(building_types, path="narrations.json", n=5):
         narrations_dict[building_type] = list(building_narrations)
 
     # Store the narrations as JSON
+    path = os.path.join(script_dir, path)
     with open(path, "w") as file:
         json.dump(narrations_dict, file)
 
@@ -101,13 +105,14 @@ def generate_building_narration(model, prompt, tokenizer, building_type, n):
     return narrations
 
 
-def place_narration_block(editor, coordinates, house_type):
+def place_narration_block(editor: Editor, global_coordinates: ivec3, house_type: str, path="narrations.json"):
     """
     Places a command block at the given coordinates and a pressure plate on top.
     When triggered, the command block sends a a narration to the nearest player.
     The narration is stored in narrations.json and fits the provided house_type.
     """
-    with open("narrations.json", "r") as file:
+    path = os.path.join(script_dir, path)
+    with open(path, "r") as file:
         narrations = json.load(file)
 
     # Access narrations for building type
@@ -120,12 +125,11 @@ def place_narration_block(editor, coordinates, house_type):
     command = command + narration
     data_string = '{Command: "' + command + '"}'
 
-    editor.placeBlock(coordinates, Block("minecraft:command_block", data=data_string))
-    editor.placeBlock(coordinates + glm.ivec3(0, 1, 0), Block("oak_pressure_plate"))
+    editor.placeBlockGlobal(global_coordinates, Block("minecraft:command_block", data=data_string))
+    editor.placeBlockGlobal(global_coordinates + glm.ivec3(0, 1, 0), Block("oak_pressure_plate"))
 
 
 if __name__ == "__main__":
     generate_narrations(
-        ["bakery", "church", "school", "villager house", "farm"], "narrations.json", n=3
+        ["bakery", "church", "school", "villager house", "farm"], n=3
     )
-    # generate_narrations(["bakery"], "narrations.json", n=3)

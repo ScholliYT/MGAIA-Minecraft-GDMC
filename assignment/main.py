@@ -12,6 +12,7 @@ import assignment.farm.farm as farm
 import assignment.school.school as school
 from assignment.buildarea.build_map import MapHolder
 from assignment.buildarea.team import build_on_spot, compute_boxes
+from assignment.narrator.narrator import place_narration_block
 from assignment.utils.building_info import BuildingInfo
 from assignment.utils.not_collapsable_exception import NotCollapsableException
 
@@ -32,8 +33,8 @@ def build_building(
     heights: np.ndarray,
     building_no: int,
     wfc_height: int,
-    building_type: str
-) -> BuildingInfo|None:
+    building_type: str,
+) -> BuildingInfo | None:
     print("Fetching location to build")
     (loc_x, loc_y, loc_z, house_grid) = compute_boxes(
         ED,
@@ -80,15 +81,16 @@ def build_building(
         # building = deterministic_building()
         building_module.build(editor=ED, building=building, place_air=False)
 
-
     building_info = BuildingInfo(building_type=building_type)
     # locate all placed command blocks
     ED.updateWorldSlice()
     with ED.pushTransform(Transform(translation=building_location)):
         for x in range(building_size[0] * size_struct):
-            for y in range(5): # 5 blocks should be sufficient to find a command block on almost ground level
+            for y in range(
+                5
+            ):  # 5 blocks should be sufficient to find a command block on almost ground level
                 for z in range(building_size[2] * size_struct):
-                    relative_offset = ivec3(x,y,z)
+                    relative_offset = ivec3(x, y, z)
                     block = ED.getBlock(relative_offset)
 
                     if block.id == "minecraft:command_block":
@@ -99,7 +101,7 @@ def build_building(
 
 def build_brickhouse(
     mymap: MapHolder, ED: Editor, startx: int, startz: int, heights: np.ndarray, building_no: int
-) -> BuildingInfo|None:
+) -> BuildingInfo | None:
     print("Building Brickhouse")
     size_struct = 11
     wfc_height = 2
@@ -115,13 +117,13 @@ def build_brickhouse(
         heights=heights,
         building_no=building_no,
         wfc_height=wfc_height,
-        building_type="villager house"
+        building_type="villager house",
     )
 
 
 def build_bakery(
     mymap: MapHolder, ED: Editor, startx: int, startz: int, heights: np.ndarray, building_no: int
-) -> BuildingInfo|None:
+) -> BuildingInfo | None:
     print("Building Bakery")
     size_struct = 7
     wfc_height = 1
@@ -137,13 +139,13 @@ def build_bakery(
         heights=heights,
         building_no=building_no,
         wfc_height=wfc_height,
-        building_type="bakery"
+        building_type="bakery",
     )
 
 
 def build_farm(
     mymap: MapHolder, ED: Editor, startx: int, startz: int, heights: np.ndarray, building_no: int
-) -> BuildingInfo|None:
+) -> BuildingInfo | None:
     print("Building Farm")
     size_struct = 7
     wfc_height = 1
@@ -159,13 +161,13 @@ def build_farm(
         heights=heights,
         building_no=building_no,
         wfc_height=wfc_height,
-        building_type="farm"
+        building_type="farm",
     )
 
 
 def build_church(
     mymap: MapHolder, ED: Editor, startx: int, startz: int, heights: np.ndarray, building_no: int
-) -> BuildingInfo|None:
+) -> BuildingInfo | None:
     print("Building Church")
     size_struct = 11
     wfc_height = 1
@@ -181,13 +183,13 @@ def build_church(
         heights=heights,
         building_no=building_no,
         wfc_height=wfc_height,
-        building_type="church"
+        building_type="church",
     )
 
 
 def build_school(
     mymap: MapHolder, ED: Editor, startx: int, startz: int, heights: np.ndarray, building_no: int
-) -> BuildingInfo|None:
+) -> BuildingInfo | None:
     print("Building School")
     size_struct = 11
     wfc_height = 2
@@ -203,8 +205,9 @@ def build_school(
         heights=heights,
         building_no=building_no,
         wfc_height=wfc_height,
-        building_type="school"
+        building_type="school",
     )
+
 
 def main():
     ED = Editor(buffering=True)
@@ -222,7 +225,6 @@ def main():
         mymap.find_flat_areas_and_trees(print_colors=False)
         print("Build Map complete")
 
-
         building_infos: List[BuildingInfo] = []
 
         building_no = 0
@@ -235,7 +237,6 @@ def main():
             build_farm,
         )
         while building_no < MAX_BUILDINGS and building_sucessful:
-
             for bf in building_functions:
                 building_info = bf(mymap, ED, STARTX, STARTZ, heights, building_no=building_no)
 
@@ -248,7 +249,14 @@ def main():
 
         print("Information on buildings in the settlement", building_infos)
 
-        print("Done!")
+        print("Placing narration blocks for all buidling entrances...")
+        for building_info in building_infos:
+            for command_block_location in building_info.command_block_locations:
+                place_narration_block(
+                    ED, command_block_location, house_type=building_info.building_type
+                )
+
+        print("Done with settlement generation!")
 
     except KeyboardInterrupt:  # useful for aborting a run-away program
         print("Pressed Ctrl-C to kill program.")
