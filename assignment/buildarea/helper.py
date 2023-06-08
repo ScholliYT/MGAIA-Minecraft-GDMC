@@ -31,7 +31,6 @@ def sample_good_location_idx(x: np.ndarray, size_struct: int, percentile=1.0) ->
     x[:, :n] = 10_000
     x[:, -n:] = 10_000
 
-
     # Calculate the threshold for the lowest 1% of values
     threshold = np.percentile(x, percentile)
     # Find the coordinates where values are smaller than the threshold

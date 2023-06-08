@@ -1,18 +1,18 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import random
-from scipy.ndimage import gaussian_filter
+
+import matplotlib.pyplot as plt
+import numpy as np
 
 # load map
-slope = np.loadtxt('slope.txt', dtype=float)
-map = np.loadtxt('map.txt', dtype=int)
+slope = np.loadtxt("slope.txt", dtype=float)
+map = np.loadtxt("map.txt", dtype=int)
 
-plt.imshow(slope, cmap='hot', interpolation='nearest')
+plt.imshow(slope, cmap="hot", interpolation="nearest")
 plt.colorbar()
 plt.title("slope")
 plt.show()
 
-plt.imshow(map, cmap='hot', interpolation='nearest')
+plt.imshow(map, cmap="hot", interpolation="nearest")
 plt.colorbar()
 plt.title("map")
 plt.show()
@@ -30,8 +30,6 @@ for row_nr in range(len(map)):
         if map[row_nr][col_nr] == 2:
             food_sources.append([row_nr, col_nr])
             NUM_FOOD_SOURCES += 1
-
-
 
 
 def find_straight_path(start, end):
@@ -80,7 +78,7 @@ for p in paths:
     for block in p:
         mapcopy[block[0], block[1]] = 3
 
-plt.imshow(mapcopy, cmap='hot', interpolation='nearest')
+plt.imshow(mapcopy, cmap="hot", interpolation="nearest")
 plt.colorbar()
 plt.title("mapcopy")
 plt.show()
@@ -94,24 +92,28 @@ def mutate(path):
         start_index = random.randint(0, len(mutated_path) - 2)  # Exclude the endpoint
         end_index = random.randint(start_index + 1, len(mutated_path) - 1)
         old_middle = int(abs(start_index - end_index))
-        new_middle = [path[old_middle][0] + int(random.randint(-MUTATION_RATE, MUTATION_RATE)),
-                      path[old_middle][1] + int(random.randint(-MUTATION_RATE, MUTATION_RATE))]
+        new_middle = [
+            path[old_middle][0] + int(random.randint(-MUTATION_RATE, MUTATION_RATE)),
+            path[old_middle][1] + int(random.randint(-MUTATION_RATE, MUTATION_RATE)),
+        ]
         # Generate a new random subpath to replace the selected segment
         subpath = find_straight_path(mutated_path[start_index], new_middle)
         subpath += find_straight_path(new_middle, mutated_path[end_index])
         # Replace the selected segment with the new subpath
-        mutated_path[start_index:end_index + 1] = subpath
+        mutated_path[start_index : end_index + 1] = subpath
 
-        #mutated_path = [instance for instance in mutated_path if random.random() > 0.01]  # Adjust the probability as desired
+        # mutated_path = [instance for instance in mutated_path if random.random() > 0.01]  # Adjust the probability as desired
 
         return mutated_path
     except:
         return path
 
+
 def mutate_all(paths):
     for path_nr in range(len(paths)):
         paths[path_nr] = mutate(paths[path_nr])
     return paths
+
 
 def fitness(paths):
     try:
@@ -124,13 +126,14 @@ def fitness(paths):
         House_overlap = 0
         for p in paths:
             for b in p:
-                if map[b[0],b[1]] != 0:
+                if map[b[0], b[1]] != 0:
                     House_overlap += 1
 
         score = length * 0.1 + House_overlap
         return score
     except:
         return 100_000
+
 
 def select(pop, scores):
     # Combine the array and scores into a list of tuples
@@ -148,14 +151,14 @@ def select(pop, scores):
     # Return the sorted array and scores
     return sorted_arr, sorted_scores
 
+
 old_fitness_scores = []
 for sample in population:
     old_fitness_scores.append(fitness(sample))
 
 
-#MAIN LOOP
+# MAIN LOOP
 for i in range(100_000):
-
     new_paths = []
     fitness_scores = []
     for sample in population:
@@ -172,14 +175,12 @@ for i in range(100_000):
     population, old_fitness_scores = select(new_paths, fitness_scores)
 
 
-
-
 mapcopy = map.copy()
 for p in population[0]:
     for block in p:
         mapcopy[block[0], block[1]] = 3
 
-plt.imshow(mapcopy, cmap='hot', interpolation='nearest')
+plt.imshow(mapcopy, cmap="hot", interpolation="nearest")
 plt.colorbar()
 plt.title("mapcopy")
 plt.show()

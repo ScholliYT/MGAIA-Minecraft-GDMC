@@ -5,7 +5,7 @@ WIDTH = 10
 HEIGHT = 10
 NUM_DOORS = 5
 NUM_ANTS = 10
-EVAPORATION_RATE = 0.01 # Rate at which pheromones evaporate
+EVAPORATION_RATE = 0.01  # Rate at which pheromones evaporate
 STEPS_PER_PHEROMONE = 10  # Number of steps per pheromone deposition
 
 
@@ -38,8 +38,8 @@ class Ant:
     def move(self):
         # Get neighboring cells' pheromone levels
         neighboring_pheromones = []
-        for dx in [-1,0, 1]:
-            for dy in [-1,0, 1]:
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
                 new_x = self.x + dx
                 new_y = self.y + dy
                 if new_x >= 0 and new_x < WIDTH and new_y >= 0 and new_y < HEIGHT:
@@ -47,14 +47,21 @@ class Ant:
                 else:
                     neighboring_pheromones.append(0)
 
-
-        if random.randint(0,1) == 1:
+        if random.randint(0, 1) == 1:
             max_pheromone = max(neighboring_pheromones)
-            max_indices = [i for i, pheromone in enumerate(neighboring_pheromones) if pheromone == max_pheromone]
+            max_indices = [
+                i
+                for i, pheromone in enumerate(neighboring_pheromones)
+                if pheromone == max_pheromone
+            ]
             index = random.choice(max_indices)
         else:
             max_pheromone = random.choice(neighboring_pheromones)
-            indeces = [i for i, pheromone in enumerate(neighboring_pheromones) if pheromone == max_pheromone]
+            indeces = [
+                i
+                for i, pheromone in enumerate(neighboring_pheromones)
+                if pheromone == max_pheromone
+            ]
             index = random.choice(indeces)
 
         dx = [-1, 0, 1][index % 3]
@@ -112,12 +119,12 @@ for _ in range(1000):  # Number of simulation steps
     # Evaporate pheromones and decay existing pheromones
     for i in range(HEIGHT):
         for j in range(WIDTH):
-            pheromones[i][j] *= (1 - EVAPORATION_RATE)
+            pheromones[i][j] *= 1 - EVAPORATION_RATE
 
     # Update the map with ant positions and pheromone levels
 
     for i in range(HEIGHT):
         for j in range(WIDTH):
-            print(pheromones[i][j], end=' ')
+            print(pheromones[i][j], end=" ")
         print()
-    print('----')
+    print("----")

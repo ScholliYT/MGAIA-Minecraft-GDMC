@@ -17,6 +17,7 @@ from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 script_dir = os.path.dirname(__file__)
 
+
 def generate_narrations(building_types, path="narrations.json", n=5):
     """
     Generates n narrations for each building type, postprocesses narrations by ensuring they only
@@ -51,9 +52,7 @@ def generate_narrations(building_types, path="narrations.json", n=5):
         building_narrations = []
 
         for prompt in prompts:
-            narrations = generate_building_narration(
-                model, prompt, tokenizer, building_type, n
-            )
+            narrations = generate_building_narration(model, prompt, tokenizer, building_type, n)
 
             for narration in narrations:
                 # Post-process the narration
@@ -98,14 +97,14 @@ def generate_building_narration(model, prompt, tokenizer, building_type, n):
         temperature=0.95,
         do_sample=True,
     )
-    narrations = [
-        tokenizer.decode(output, skip_special_tokens=True) for output in outputs
-    ]
+    narrations = [tokenizer.decode(output, skip_special_tokens=True) for output in outputs]
 
     return narrations
 
 
-def place_narration_block(editor: Editor, global_coordinates: ivec3, house_type: str, path="narrations.json"):
+def place_narration_block(
+    editor: Editor, global_coordinates: ivec3, house_type: str, path="narrations.json"
+):
     """
     Places a command block at the given coordinates and a pressure plate on top.
     When triggered, the command block sends a a narration to the nearest player.
@@ -130,6 +129,4 @@ def place_narration_block(editor: Editor, global_coordinates: ivec3, house_type:
 
 
 if __name__ == "__main__":
-    generate_narrations(
-        ["bakery", "church", "school", "villager house", "farm"], n=3
-    )
+    generate_narrations(["bakery", "church", "school", "villager house", "farm"], n=3)
