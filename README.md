@@ -85,6 +85,7 @@ Way larger areas unfortunately don't work because of recursion depth limitations
 
 # Paths Between Buildings
 We experimented with different algorithms to generate naturally looking paths to connect the buildings. The code for the experiments can be found in `Pathing_stand_alone_code`.
+Here you can find the code for creating paths using three different algorithms: Ant Colony Simulation, Genetic Algorithm and water simulation. (Water simulation worked by far the best)
 
 ![Plot of naturally looking paths connecting all the buildings.](docs/images/pathing/Paths-Connecting-Buildings-in-a-Settlement.png)
 
