@@ -1,3 +1,9 @@
+import random
+from typing import List, Tuple
+
+import numpy as np
+
+
 def is_water(ED, x, y, z):
     type = ED.getBlock((x, y - 1, z))
     water_specifiers = ["water", "lava", "ice"]
@@ -17,7 +23,7 @@ def is_air(ED, x, y, z):
     return False
 
 
-def find_min_idx(x, size_struct):
+def sample_good_location_idx(x: np.ndarray, size_struct: int, percentile=1.0) -> Tuple[int, int]:
     # add borders so we don't build outside of heightmap
     n = int(size_struct / 2 + 1)
     x[:n, :] = 10_000
@@ -25,7 +31,14 @@ def find_min_idx(x, size_struct):
     x[:, :n] = 10_000
     x[:, -n:] = 10_000
 
-    # find min idx of map
-    k = x.argmin()
-    ncol = x.shape[1]
-    return int(k / ncol), int(k % ncol)
+
+    # Calculate the threshold for the lowest 1% of values
+    threshold = np.percentile(x, percentile)
+    # Find the coordinates where values are smaller than the threshold
+    indices = np.where(x < threshold)
+    # Create a list of (x, y) tuples from the indices
+    coordinates: List[Tuple[int, int]] = list(zip(indices[0], indices[1]))
+    # Randomly select a single coordinate pair
+    random_coordinate = random.choice(coordinates)
+
+    return random_coordinate

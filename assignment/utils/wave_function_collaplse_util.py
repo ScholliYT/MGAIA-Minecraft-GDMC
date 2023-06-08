@@ -5,21 +5,30 @@ from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
 
 def print_state(wfc: WaveFunctionCollapse, air_name: str | None = None):
-    for y in range(wfc.state_space_size[1]):
-        print("Layer y=" + str(y))
-        for x in reversed(range(wfc.state_space_size[0])):
+    print()
+    z_length = wfc.state_space_size[2]*3-1
+    block_length = 4 + max(z_length, len("Layer y=0"))
+    spacing_str = (" ")*(block_length - len("Layer y=0"))
+    print(spacing_str.join([f"Layer {y=}" for y in range(wfc.state_space_size[1])]))
+
+    for x in reversed(range(wfc.state_space_size[0])):
+        for y in range(wfc.state_space_size[1]):
             for z in range(wfc.state_space_size[2]):
                 state = wfc.state_space[x][y][z]
                 if (
-                    air_name is not None
-                    and len(state) == 1
-                    and (list(state)[0].structure_name == air_name)
+                        air_name is not None
+                        and len(state) == 1
+                        and (list(state)[0].structure_name == air_name)
                 ):
-                    print("  ", end=",")
+                    print("  ", end="")
                 else:
-                    print("{:02d}".format(len(state)), end=",")
-            print()
+                    print("{:02d}".format(len(state)), end="")
+                if z < wfc.state_space_size[2]-1:
+                    print(",", end="")
+            if y < wfc.state_space_size[1]-1:
+                print(" "*(block_length-z_length), end="")
         print()
+    print()
 
 
 def collapse_to_air_on_outer_rectangle(wfc: WaveFunctionCollapse, empty_space_air: str):

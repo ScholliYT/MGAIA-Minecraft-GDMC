@@ -8,7 +8,7 @@ import assignment.buildarea.helper as helper
 
 
 class MapHolder:
-    def __init__(self, ED, heights, ACCEPTABLE_BUILDING_SCORE):
+    def __init__(self, ED, heights, ACCEPTABLE_BUILDING_SCORE=1.3):
         self.ED = ED
         self.heights = heights
 

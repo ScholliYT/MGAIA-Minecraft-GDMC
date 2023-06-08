@@ -1,6 +1,7 @@
 import itertools
 import random
 from typing import Callable, Dict, List, Set, Tuple, Union
+from assignment.utils.not_collapsable_exception import NotCollapsableException
 
 from assignment.utils.structure_adjacency import StructureAdjacency
 from assignment.utils.structure_rotation import StructureRotation
@@ -229,12 +230,13 @@ class WaveFunctionCollapse:
         while not self.collapse():
             self._initialize_state_space_superposition()
             if reinit:
+                print("Reinitializing WFC state to default")
                 reinit()
 
             retry_counter += 1
 
             if retry_counter > max_retry:
-                raise Exception(f"WFC did not collapse after {max_retry} retries.")
+                raise NotCollapsableException(f"WFC did not collapse after {max_retry} retries.")
 
         return retry_counter
 

@@ -4,6 +4,7 @@ from typing import List
 import numpy as np
 from gdpc import Block, Editor, Transform
 from glm import ivec3
+from tqdm import tqdm
 
 import assignment.bakery.bakery as bakery
 import assignment.brickhouse.brickhouse as brickhouse
@@ -17,9 +18,9 @@ from assignment.narrator.narrator import place_narration_block
 from assignment.pathing.water_real import make_paths
 from assignment.utils.building_info import BuildingInfo
 from assignment.utils.not_collapsable_exception import NotCollapsableException
+from assignment.utils.wave_function_collaplse_util import print_state
+from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
-# Hyperparameter for finding building spaces
-ACCEPTABLE_BUILDING_SCORE = 1.3
 # Maximum number of buildings in the settlement
 MAX_BUILDINGS = 20
 
@@ -42,10 +43,8 @@ def build_building(
         ED,
         mymap,
         heights,
-        building_no,
         start_x=startx,
         start_z=startz,
-        acceptable_building_score=ACCEPTABLE_BUILDING_SCORE,
         size_struct=size_struct,
     )
     buildable = [[bool(x) for x in xs] for xs in house_grid]
@@ -59,10 +58,12 @@ def build_building(
 
     print("Generating building using WFC of size", building_size)
     try:
-        wfc = building_module.random_building(size=building_size, buildable=buildable)
+        wfc: WaveFunctionCollapse = building_module.random_building(size=building_size, buildable=buildable)
     except NotCollapsableException:
         print(f"Failed to generate a building for location {building_no}. Skipping this")
         return None
+
+    print_state(wfc, "empty-space-air")
     building = building_module.wfc_state_to_minecraft_blocks(wfc.collapsed_state())
 
     # claim all used zones, i.e. ones that are not air blocks
@@ -223,7 +224,7 @@ def main():
 
     try:
         print("Calculating heights and making Build Map...")
-        mymap = MapHolder(ED, heightmap, ACCEPTABLE_BUILDING_SCORE)
+        mymap = MapHolder(ED, heightmap)
         mymap.find_flat_areas_and_trees(print_colors=False)
         map_block_slope_score = np.copy(mymap.block_slope_score)
         print("Build Map complete")
@@ -271,19 +272,17 @@ def main():
                     relative_position = command_block_location - ivec3(STARTX, 0, STARTZ)
                     filtered_building_map[relative_position[0]][relative_position[2]] = 2
 
-            final_paths = make_paths(slope=map_block_slope_score, map=filtered_building_map)
-            print("Building paths")
-            for x in range(final_paths.shape[0]):
-                for z in range(final_paths.shape[1]):
-                    if final_paths[x][z] != 1:
-                        continue
+            final_paths = make_paths(slope=map_block_slope_score, building_map=filtered_building_map)
 
-                    global_position = ivec3(x, heightmap[x][z], z) + ivec3(STARTX, 0, STARTZ)
+            print("Starting to build paths")
+            ED.updateWorldSlice()
+            for (x,z) in tqdm(list(zip(*np.where(final_paths == 1))), desc="Building paths"):
+                global_position = ivec3(x, heightmap[x][z], z) + ivec3(STARTX, 0, STARTZ)
 
-                    if is_water(ED, global_position[0], global_position[1], global_position[2]):
-                        ED.placeBlockGlobal(global_position, Block("oak_slab"))
-                    else:
-                        ED.placeBlockGlobal(global_position, Block("gravel")) # Block("dirt_path")
+                if is_water(ED, global_position[0], global_position[1], global_position[2]):
+                    ED.placeBlockGlobal(global_position, Block("oak_slab"))
+                else:
+                    ED.placeBlockGlobal(global_position + ivec3(0,-1,0), Block("gravel")) # Block("dirt_path")
         else:
             print("Not enough buildings to connect them with paths. At least 2 entrances are required.")
 

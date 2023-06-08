@@ -31,7 +31,9 @@ def structure_weights(structures: List[StructureRotation]):
 
 
 def random_building(
-    size: Tuple[int, int, int] = (7, 1, 7), buildable: List[List[bool]] | None = None, max_retries=50
+    size: Tuple[int, int, int] = (7, 1, 7),
+    buildable: List[List[bool]] | None = None,
+    max_retries=50,
 ) -> WaveFunctionCollapse:
     wfc = WaveFunctionCollapse(size, sa.structure_adjecencies, structure_weights)
     if buildable is None:
@@ -46,12 +48,12 @@ def random_building(
     def reinit():
         collapse_to_air_on_outer_rectangle(wfc, empty_space_air)
 
-        print("Outer rectangle")
+        print("Removing outer rectangle from WFC state")
         print_state(wfc, air_name=empty_space_air)
 
         collapse_unbuildable_to_air(wfc, buildable, empty_space_air)
 
-        print("Unbuildable")
+        print("Removing unbuildable area from WFC state")
         print_state(wfc, air_name=empty_space_air)
 
         # wfc.collapse_random_cell()
@@ -68,12 +70,15 @@ def random_building(
         return (not air_only) and contains_door
 
     retries = wfc.collapse_with_retry(reinit=reinit)
-    while not building_criterion_met(wfc) and retries < max_retries:   # used air structures only
+    while not building_criterion_met(wfc) and retries < max_retries:  # used air structures only
         wfc._initialize_state_space_superposition()
         retries += 1 + wfc.collapse_with_retry(reinit=reinit)
-    
+
     if retries >= max_retries:
-        raise NotCollapsableException()
+        raise NotCollapsableException(
+            f"WFC did not collapse after {max_retries} retries " +
+            "to a state that fulfills the building criterion."
+        )
     print(f"WFC collapsed after {retries} retries")
     return wfc
 
@@ -90,9 +95,7 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-def build(
-    editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
-):
+def build(editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True):
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor

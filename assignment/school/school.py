@@ -48,12 +48,12 @@ def random_building(
     def reinit():
         collapse_to_air_on_outer_rectangle(wfc, empty_space_air)
 
-        print("Outer rectangle")
+        print("Removing outer rectangle from WFC state")
         print_state(wfc, air_name=empty_space_air)
 
         collapse_unbuildable_to_air(wfc, buildable, empty_space_air)
 
-        print("Unbuildable")
+        print("Removing unbuildable area from WFC state")
         print_state(wfc, air_name=empty_space_air)
 
         # wfc.collapse_random_cell()

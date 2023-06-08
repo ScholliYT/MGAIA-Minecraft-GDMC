@@ -57,20 +57,13 @@ def compute_boxes(
     editor: Editor,
     mymap: MapHolder,
     heights: np.ndarray,
-    it: int,
     start_x: int,
     start_z: int,
-    acceptable_building_score: float,
     size_struct: int,
 ):
     # find the best location to put a building
-    best_loc_x, best_loc_z = helper.find_min_idx(mymap.block_slope_score, size_struct)
-    # get the value of the minimum spot
-    min_score = min([min(r) for r in mymap.block_slope_score])
+    best_loc_x, best_loc_z = helper.sample_good_location_idx(mymap.block_slope_score, size_struct)
 
-    # see if this place is still suitable for a building
-    if (min_score) > acceptable_building_score and it >= 1:
-        return
     best_loc_y = heights[(best_loc_x, best_loc_z)]
 
     # If we are in a tree, go down untill we aren't
