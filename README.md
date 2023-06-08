@@ -86,7 +86,7 @@ Way larger areas unfortunately don't work because of recursion depth limitations
 ## Installation
 By installing the required Python dependencies through Poetry, you should already have everything that is necessary to run the following commands.
 ## Regenerating texts
-Run the following command to regenerate all texts using the LLM: `poetry run python3 assignment/narrator/narrator.py`.
+Run the following command to regenerate all texts using the LLM: `poetry run python3 assignment/narrator/narrator.py`. This will generate 30 narrations for each of the following building types: bakery, church, school, villager house, farm.
 Running the command for the first time will download the GTP-2 model.
 
 
