@@ -7,6 +7,7 @@ import re
 import glm
 import numpy as np
 from gdpc import Block
+from tqdm import tqdm
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 # from gdpc import __url__, Editor, Block, geometry, vector_tools, Transform
@@ -31,7 +32,7 @@ def generate_narrations(building_types, path="narrations.json", n=5):
 
     narrations_dict = {}
 
-    for building_type in building_types:
+    for building_type in tqdm(building_types, desc="Building"):
         prompts = [
             f"Welcome to the town's {building_type}! Here, you can",
             f"You entered a {building_type}! This is a place where",
