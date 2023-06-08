@@ -1,15 +1,15 @@
 import unittest
 
-from generator.brickhouse.structure_adjacencies import (
+from assignment.brickhouse.structure_adjacencies import (
     structure_adjecencies,
 )
-from generator.brickhouse.structures import (
+from assignment.brickhouse.structures import (
     brickhouse_center,
     brickhouse_entrance,
 )
-from generator.utils.structure_rotation import StructureRotation
-from generator.utils.wave_function_collaplse_util import print_state
-from generator.utils.wave_function_collapse import WaveFunctionCollapse
+from assignment.utils.structure_rotation import StructureRotation
+from assignment.utils.wave_function_collaplse_util import print_state
+from assignment.utils.wave_function_collapse import WaveFunctionCollapse
 
 
 class WaveFunctionCollaplse1x1x1Test(unittest.TestCase):

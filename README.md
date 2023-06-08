@@ -19,7 +19,7 @@ Additionally, using [Forge](https://files.minecraftforge.net/net/minecraftforge/
 
 The whole end to end script `main.py` contains building location finding, building generation, path and story generation.
 Before running the script you must select the build area using the following command: `/setbuildarea ~ ~ ~ ~200 ~ ~200`.
-Afterwards, the script can be run using `poetry run python3 generator/main.py`.
+Afterwards, the script can be run using `poetry run python3 assignment/main.py`.
 The script is composed of different steps which are described below. 
 Some steps can also be run individually.
 

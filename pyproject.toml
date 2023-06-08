@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "generator"
+name = "assignment"
 version = "0.1.0"
 description = ""
 authors = ["Tom Stein <dev@tomstein.me>"]
@@ -48,4 +48,4 @@ select = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["generator"]
+known-first-party = ["assignment"]

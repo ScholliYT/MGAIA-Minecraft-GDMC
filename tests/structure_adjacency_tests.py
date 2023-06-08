@@ -1,11 +1,11 @@
 import unittest
 
-import generator.bakery.structure_adjacencies as bakery
-import generator.brickhouse.structure_adjacencies as brickhouse
-import generator.church.structure_adjacencies as church
-import generator.farm.structure_adjacencies as farm
-import generator.school.structure_adjacencies as school
-from generator.utils.structure_adjacency import check_symmetry
+import assignment.bakery.structure_adjacencies as bakery
+import assignment.brickhouse.structure_adjacencies as brickhouse
+import assignment.church.structure_adjacencies as church
+import assignment.farm.structure_adjacencies as farm
+import assignment.school.structure_adjacencies as school
+from assignment.utils.structure_adjacency import check_symmetry
 
 
 class TestSymmetryChecker(unittest.TestCase):
