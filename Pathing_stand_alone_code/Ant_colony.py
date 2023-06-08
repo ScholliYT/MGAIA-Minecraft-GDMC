@@ -1,6 +1,7 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import random
+
+import matplotlib.pyplot as plt
+import numpy as np
 from scipy.ndimage import gaussian_filter
 
 # Constants
@@ -18,8 +19,8 @@ SLOPE_MODIFIER = 2
 GRID_SIZE = 100
 HOME_POSITION = (GRID_SIZE // 2, GRID_SIZE // 2)
 # load map
-slope = np.loadtxt('slope.txt', dtype=float)
-map = np.loadtxt('map.txt', dtype=int)
+slope = np.loadtxt("slope.txt", dtype=float)
+map = np.loadtxt("map.txt", dtype=int)
 
 # Initialize grid and pheromone array
 grid = np.zeros((GRID_SIZE, GRID_SIZE), dtype=int)
@@ -30,17 +31,17 @@ pheromone_history = np.zeros((GRID_SIZE, GRID_SIZE), dtype=float)
 last_paths = []
 
 # Place food sources randomly
-#food_sources = np.random.randint(1, 6, size=(NUM_FOOD_SOURCES, 2))
+# food_sources = np.random.randint(1, 6, size=(NUM_FOOD_SOURCES, 2))
 NUM_FOOD_SOURCES = 0
 food_sources = []
 for row_nr in range(len(map)):
     for col_nr in range(len(map)):
         if map[row_nr][col_nr] == 2:
-            food_sources.append([row_nr,col_nr])
+            food_sources.append([row_nr, col_nr])
             NUM_FOOD_SOURCES += 1
 
 
-food_sources_left = [Food_amount]*NUM_FOOD_SOURCES
+food_sources_left = [Food_amount] * NUM_FOOD_SOURCES
 for food in food_sources:
     grid[food[0], food[1]] = -1
 
@@ -52,8 +53,10 @@ ants_homes = [a for a in ants]
 Ants_pheromones = [1] * NUM_ANTS
 ant_paths = [[] for _ in range(NUM_ANTS)]
 going_home = [False] * NUM_ANTS
-ants_last_move = [[0,0]] * NUM_ANTS
-def move_ant(pheromone_array, ant_position,i):
+ants_last_move = [[0, 0]] * NUM_ANTS
+
+
+def move_ant(pheromone_array, ant_position, i):
     # Get the dimensions of the pheromone array
     rows = len(pheromone_array)
     cols = len(pheromone_array[0])
@@ -63,28 +66,27 @@ def move_ant(pheromone_array, ant_position,i):
         (ant_position[0] - 1, ant_position[1]),  # Up
         (ant_position[0] + 1, ant_position[1]),  # Down
         (ant_position[0], ant_position[1] - 1),  # Left
-        (ant_position[0], ant_position[1] + 1),   # Right
-        (ant_position[0] - 1, ant_position[1]+1),  #
-        (ant_position[0] - 1, ant_position[1]-1),  #
-        (ant_position[0]+1, ant_position[1] + 1),  #
-        (ant_position[0]+1, ant_position[1] - 1)  #
+        (ant_position[0], ant_position[1] + 1),  # Right
+        (ant_position[0] - 1, ant_position[1] + 1),  #
+        (ant_position[0] - 1, ant_position[1] - 1),  #
+        (ant_position[0] + 1, ant_position[1] + 1),  #
+        (ant_position[0] + 1, ant_position[1] - 1),  #
     ]
     if ants_last_move[i] == [0, 0]:
         neighbors = potential_neighbors
-        factor = [1]*len(neighbors)
+        factor = [1] * len(neighbors)
     else:
-        ant_next = [ant_position[0] + ants_last_move[i][0],ant_position[1] + ants_last_move[i][1]]
+        ant_next = [ant_position[0] + ants_last_move[i][0], ant_position[1] + ants_last_move[i][1]]
         factor = []
         neighbors = []
         for pot in potential_neighbors:
-            dif = np.abs(ant_next[0]-pot[0]) + np.abs(ant_next[1]-pot[1])
+            dif = np.abs(ant_next[0] - pot[0]) + np.abs(ant_next[1] - pot[1])
             if dif < 2:
                 neighbors.append(pot)
                 if dif < 1:
                     factor.append(SAME_DIR_MULTIPLIER)
                 else:
                     factor.append(1)
-
 
     # Calculate the pheromone levels of the neighboring positions
     pheromone_levels = []
@@ -105,12 +107,18 @@ def move_ant(pheromone_array, ant_position,i):
         probabilities = [1 for _ in pheromone_levels]
     else:
         # Calculate the probabilities based on the pheromone levels
-        probabilities = [level+RANDOMNESS*sum(pheromone_levels) / sum(pheromone_levels) for level in pheromone_levels]
+        probabilities = [
+            level + RANDOMNESS * sum(pheromone_levels) / sum(pheromone_levels)
+            for level in pheromone_levels
+        ]
 
-    probabilities = [(p*f)/s*SLOPE_MODIFIER+0.1 for p,f,s in zip(probabilities,factor, slope_levels)]
+    probabilities = [
+        (p * f) / s * SLOPE_MODIFIER + 0.1 for p, f, s in zip(probabilities, factor, slope_levels)
+    ]
     # Choose the next position based on the probabilities
     next_position = random.choices(neighbors, probabilities)[0]
     return next_position
+
 
 def print_this():
     grid = np.zeros((GRID_SIZE, GRID_SIZE), dtype=int)
@@ -134,7 +142,7 @@ def print_this():
             elif cell == -1:
                 print("F", end=" ")  # Food
             elif cell == 2:
-                print("H", end=' ')
+                print("H", end=" ")
             else:
                 print(".", end=" ")  # Empty cell
         print()
@@ -142,14 +150,14 @@ def print_this():
 
 iteration = 0
 # Main loop
-while(len(food_sources)>0):
-    iteration +=1
+while len(food_sources) > 0:
+    iteration += 1
     if print_array:
         print_this()
 
     # Update ant positions
     for i, ant in enumerate(ants):
-        #GOING HOME
+        # GOING HOME
         if going_home[i]:
             if len(ant_paths[i]) == 0:
                 going_home[i] = False
@@ -158,15 +166,18 @@ while(len(food_sources)>0):
             step_counts[ants[i][0], ants[i][1]] += 1
             next_step = ant_paths[i].pop(-1)  # Move along the stored path
             pheromone_array[ants[i][0], ants[i][1]] += Ants_pheromones[i]
-            Ants_pheromones[i] = Ants_pheromones[i]*(1-PHEROMONE_DECAY)
+            Ants_pheromones[i] = Ants_pheromones[i] * (1 - PHEROMONE_DECAY)
             ants[i] = next_step
-        #EAT FOOD
-        elif any(abs(ant[0]-f[0]) +abs(ant[1]-f[1]) < 3 for f in food_sources) and [ant[0], ant[1]] != ants_homes[i]:
+        # EAT FOOD
+        elif (
+            any(abs(ant[0] - f[0]) + abs(ant[1] - f[1]) < 3 for f in food_sources)
+            and [ant[0], ant[1]] != ants_homes[i]
+        ):
             food_found = [f for f in food_sources if abs(ant[0] - f[0]) + abs(ant[1] - f[1]) < 3]
             index_food = food_sources.index([food_found[0][0], food_found[0][1]])
             food_sources_left[index_food] -= 1
             if food_sources_left[index_food] == 0:
-                #add last path to dict
+                # add last path to dict
                 last_paths.append(ant_paths[i])
                 food_sources.remove([food_found[0][0], food_found[0][1]])
                 food_sources_left.remove(0)
@@ -178,39 +189,41 @@ while(len(food_sources)>0):
 
             next_step = ant_paths[i].pop(-1)  # Move along the stored path
             pheromone_array[ants[i][0], ants[i][1]] += Ants_pheromones[i]
-            Ants_pheromones[i] = Ants_pheromones[i]*(1-PHEROMONE_DECAY)
+            Ants_pheromones[i] = Ants_pheromones[i] * (1 - PHEROMONE_DECAY)
             ants[i] = next_step
-        #WONDER
+        # WONDER
         else:
-            new_position = move_ant(pheromone_array, ants[i],i)
-            #direction = np.random.choice([-1, 0, 1], size=2)
-            #new_position = (ant[0] + direction[0], ant[1] + direction[1])
+            new_position = move_ant(pheromone_array, ants[i], i)
+            # direction = np.random.choice([-1, 0, 1], size=2)
+            # new_position = (ant[0] + direction[0], ant[1] + direction[1])
 
             # Check if new position is within the boundaries of the grid
-            if 0 <= new_position[0] < GRID_SIZE and 0 <= new_position[1] < GRID_SIZE and map[new_position[0],new_position[1]] != 1:
-                ants_last_move[i] = [new_position[0]-ants[i][0],new_position[1]-ants[i][1]]
+            if (
+                0 <= new_position[0] < GRID_SIZE
+                and 0 <= new_position[1] < GRID_SIZE
+                and map[new_position[0], new_position[1]] != 1
+            ):
+                ants_last_move[i] = [new_position[0] - ants[i][0], new_position[1] - ants[i][1]]
                 ants[i] = new_position
                 ant_paths[i].append(new_position)
             else:
-                ants_last_move[i] = [0,0]
+                ants_last_move[i] = [0, 0]
 
     # Evaporate pheromones
     if iteration % 10 == 0:
-        pheromone_array = gaussian_filter(pheromone_array, sigma=2, mode='constant')
-    pheromone_array *= (1.0 - PHEROMONE_EVAPORATION)
+        pheromone_array = gaussian_filter(pheromone_array, sigma=2, mode="constant")
+    pheromone_array *= 1.0 - PHEROMONE_EVAPORATION
     pheromone_history += pheromone_array
 
-
-
-    if iteration % 10_000== 0:
+    if iteration % 10_000 == 0:
         pheromone_array = np.round(pheromone_array, 8)
 
-        plt.imshow(step_counts, cmap='hot', interpolation='nearest')
+        plt.imshow(step_counts, cmap="hot", interpolation="nearest")
         plt.title("steps")
         plt.colorbar()
         plt.show()
 
-        plt.imshow(pheromone_history, cmap='hot', interpolation='nearest')
+        plt.imshow(pheromone_history, cmap="hot", interpolation="nearest")
         plt.colorbar()
         plt.title("pheromone")
         plt.show()
@@ -218,19 +231,18 @@ while(len(food_sources)>0):
         print_this()
 
 
-
 pheromone_array = np.round(pheromone_array, 8)
-plt.imshow(pheromone_history, cmap='hot', interpolation='nearest')
+plt.imshow(pheromone_history, cmap="hot", interpolation="nearest")
 plt.colorbar()
 plt.title("pheromone")
 plt.show()
 
-plt.imshow(step_counts, cmap='hot', interpolation='nearest')
+plt.imshow(step_counts, cmap="hot", interpolation="nearest")
 plt.title("steps")
 plt.colorbar()
 plt.show()
 
-plt.imshow(slope, cmap='hot', interpolation='nearest')
+plt.imshow(slope, cmap="hot", interpolation="nearest")
 plt.title("slope")
 plt.colorbar()
 plt.show()

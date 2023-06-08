@@ -58,7 +58,9 @@ def build_building(
 
     print("Generating building using WFC of size", building_size)
     try:
-        wfc: WaveFunctionCollapse = building_module.random_building(size=building_size, buildable=buildable)
+        wfc: WaveFunctionCollapse = building_module.random_building(
+            size=building_size, buildable=buildable
+        )
     except NotCollapsableException:
         print(f"Failed to generate a building for location {building_no}. Skipping this")
         return None
@@ -70,7 +72,9 @@ def build_building(
     # some index shifts because of differend formats
     used_zones = [
         [
-            int(building[-xi - 2][0][zi + 1][0].name != "empty-space-air") # building_module.empty_space_air does not work here because of paths in the name
+            int(
+                building[-xi - 2][0][zi + 1][0].name != "empty-space-air"
+            )  # building_module.empty_space_air does not work here because of paths in the name
             for zi, zs in enumerate(xs)
         ]
         for xi, xs in enumerate(buildable)
@@ -272,20 +276,25 @@ def main():
                     relative_position = command_block_location - ivec3(STARTX, 0, STARTZ)
                     filtered_building_map[relative_position[0]][relative_position[2]] = 2
 
-            final_paths = make_paths(slope=map_block_slope_score, building_map=filtered_building_map)
+            final_paths = make_paths(
+                slope=map_block_slope_score, building_map=filtered_building_map
+            )
 
             print("Starting to build paths")
             ED.updateWorldSlice()
-            for (x,z) in tqdm(list(zip(*np.where(final_paths == 1))), desc="Building paths"):
+            for x, z in tqdm(list(zip(*np.where(final_paths == 1))), desc="Building paths"):
                 global_position = ivec3(x, heightmap[x][z], z) + ivec3(STARTX, 0, STARTZ)
 
                 if is_water(ED, global_position[0], global_position[1], global_position[2]):
                     ED.placeBlockGlobal(global_position, Block("oak_slab"))
                 else:
-                    ED.placeBlockGlobal(global_position + ivec3(0,-1,0), Block("gravel")) # Block("dirt_path")
+                    ED.placeBlockGlobal(
+                        global_position + ivec3(0, -1, 0), Block("gravel")
+                    )  # Block("dirt_path")
         else:
-            print("Not enough buildings to connect them with paths. At least 2 entrances are required.")
-
+            print(
+                "Not enough buildings to connect them with paths. At least 2 entrances are required."
+            )
 
         ED.flushBuffer()
         print("Done with settlement generation!")

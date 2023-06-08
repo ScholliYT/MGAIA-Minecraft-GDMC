@@ -130,7 +130,9 @@ def structure_weights(structures: List[StructureRotation]):
 
 
 def random_building(
-    size: Tuple[int, int, int] = (5, 2, 5), buildable: List[List[bool]] | None = None, max_retries=50
+    size: Tuple[int, int, int] = (5, 2, 5),
+    buildable: List[List[bool]] | None = None,
+    max_retries=50,
 ) -> WaveFunctionCollapse:
     wfc = WaveFunctionCollapse(size, structure_adjecencies, structure_weights)
     if buildable is None:
@@ -212,9 +214,7 @@ def wfc_state_to_minecraft_blocks(
     return buidling
 
 
-def build(
-    editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True
-):
+def build(editor: Editor, building: List[List[List[Tuple[Structure, int]]]], place_air=True):
     assert len(building[0]) in (1, 2), "Only buildings of height 1 or 2 are supported"
 
     # same for all strucures on ground floor

@@ -11,7 +11,7 @@ from assignment.school.structures import (
     school_roof,
     school_upper_entrance,
     school_upper_middle,
-    school_upper_stairs
+    school_upper_stairs,
 )
 from assignment.utils.structure import load_structure
 from assignment.utils.structure_showcase import build_structure_showcase
@@ -33,7 +33,7 @@ def main():
             load_structure(school_roof),
             load_structure(school_upper_entrance),
             load_structure(school_upper_middle),
-            load_structure(school_upper_stairs)
+            load_structure(school_upper_stairs),
         ]
 
         print("Building school structure showcase")

@@ -76,8 +76,8 @@ def random_building(
 
     if retries >= max_retries:
         raise NotCollapsableException(
-            f"WFC did not collapse after {max_retries} retries " +
-            "to a state that fulfills the building criterion."
+            f"WFC did not collapse after {max_retries} retries "
+            + "to a state that fulfills the building criterion."
         )
     print(f"WFC collapsed after {retries} retries")
     return wfc
