@@ -1,2 +1,0 @@
-class NotBuildableException(Exception):
-    pass

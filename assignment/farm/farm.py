@@ -10,7 +10,7 @@ from assignment.farm.structures import (
     empty_space_air,
     farm_entrance,
 )
-from assignment.utils.not_buildable_exception import NotBuildableException
+from assignment.utils.not_collapsable_exception import NotCollapsableException
 from assignment.utils.structure import Structure, build_structure, load_structure
 from assignment.utils.structure_adjacency import all_rotations
 from assignment.utils.structure_rotation import StructureRotation
@@ -70,7 +70,7 @@ def random_building(
         retries += 1 + wfc.collapse_with_retry(reinit=reinit)
 
     if retries >= max_retries:
-        raise NotBuildableException()
+        raise NotCollapsableException()
     print(f"WFC collapsed after {retries} retries")
     return wfc
 

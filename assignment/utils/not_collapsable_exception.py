@@ -1,0 +1,2 @@
+class NotCollapsableException(Exception):
+    pass
