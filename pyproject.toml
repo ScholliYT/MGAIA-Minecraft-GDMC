@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10, <3.12"
-gdpc = {git = "https://github.com/avdstaaij/gdpc", tag = "v6.0.1"}
+gdpc = {git = "https://github.com/avdstaaij/gdpc", tag = "v6.1.1"}
 tqdm = "^4.65.0"
 transformers = {version="^4.29.2", extras=["torch"]}
 torch = "^1.12.0"

@@ -409,8 +409,8 @@ termcolor = "*"
 [package.source]
 type = "git"
 url = "https://github.com/avdstaaij/gdpc"
-reference = "v6.0.1"
-resolved_reference = "253363ec0f4503a52cbea71f886fb9d374cb228e"
+reference = "v6.1.1"
+resolved_reference = "0feafec7605455ff9e1f95f1b840242f1a9224f8"
 
 [[package]]
 name = "huggingface-hub"
@@ -1799,4 +1799,4 @@ test = ["pytest (>=6.0.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10, <3.12"
-content-hash = "66477ed0be4538f88302ecaa9ca358252ba4ea2169bd2c7a444243d423ad0b5a"
+content-hash = "ff05db6e1b7841afabda7a484ad5da5980335f88c13f1bb35623ab8a627d709a"
