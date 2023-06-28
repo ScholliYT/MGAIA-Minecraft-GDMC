@@ -236,7 +236,7 @@ def main():
         building_infos: List[BuildingInfo] = []
 
         building_no = 0
-        building_sucessful = True
+        building_attempts = 0
         building_functions = (
             build_brickhouse,
             build_church,
@@ -244,16 +244,14 @@ def main():
             build_bakery,
             build_farm,
         )
-        while building_no < MAX_BUILDINGS and building_sucessful:
+        while building_no < MAX_BUILDINGS and building_attempts < MAX_BUILDINGS+len(building_functions)*5:
             for bf in building_functions:
                 building_info = bf(mymap, ED, STARTX, STARTZ, heightmap, building_no=building_no)
 
+                building_attempts += 1
                 if building_info is not None:
                     building_infos.append(building_info)
                     building_no += 1
-                    building_sucessful = True
-                else:
-                    building_sucessful = False
 
         print("Information on buildings in the settlement", building_infos)
 
